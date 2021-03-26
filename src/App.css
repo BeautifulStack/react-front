@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.wrapper {
+  background-color: #15140F;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainPage{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.siteName {
+  font-family: Pacifico, Arial, Helvetica, sans-serif;
+  font-size: 78px;
+  color: #E6BC17;
+  border-bottom: 2px solid #E6BC17;
+}
+
+.cta-btn {
+  background-color: #E6BC17;
+  padding: 1em 3em;
+}
+
+.Left {
+  text-align: left;
+  align-self: flex-start;
+}
+
+.Right {
+  text-align: right;
+  align-self: flex-end;
+}
+
+.paragraphe {
+  margin: 1em 3em;
+  width: 45%;
+  font-family: 'Ubuntu';
+  color: #E6E6E6;
+  font-size: 24px;
+}
+
+.siteLogo {
+  width: 150px;
+}
+
+.divAnim {
+  margin-top: 2em;
+  background-image: url('./repair.gif');
+  height: 600px;
+  width: 100%;
+  background-position: center;
+}
