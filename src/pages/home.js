@@ -1,5 +1,7 @@
 import React from 'react'
 import logo from './../android-chrome-512x512.png'
+import { Link } from 'react-router-dom'
+
 
 export const Home = () => {
 	return (
@@ -7,7 +9,7 @@ export const Home = () => {
 			<header className='mainPage'>
 				<img src={logo} className='siteLogo'/>
 				<span className='siteName'>FairRepack</span>
-				<span className='cta-btn'>Sign In</span>
+				<Link to='/login' className='cta-btn'>Sign In</Link>
 			</header>
 			<div className='divAnim'></div>
 			<div className='Left paragraphe'>
