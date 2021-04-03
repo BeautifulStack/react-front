@@ -22,6 +22,8 @@
 }
 
 .cta-btn {
+  color: black;
+  text-decoration: none;
   background-color: #E6BC17;
   padding: 1em 3em;
 }
@@ -54,4 +56,31 @@
   height: 600px;
   width: 100%;
   background-position: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin: 3em auto;
+}
+
+.textWrapper {
+  width: 100%;
+  padding-top: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.submitBtn {
+  align-self: flex-end;
+  margin-top: 1em;
+}
+
+.checkbox {
+  color: white
+}
+
+.MuiFormControlLabel-label {
+  font-family: 'Ubuntu';
 }

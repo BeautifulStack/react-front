@@ -5,6 +5,7 @@ import { Home } from './pages/home'
 import { Login } from './pages/login'
 import { Register } from './pages/register'
 
+
 function App() {
 
 	return (
@@ -13,8 +14,6 @@ function App() {
 				<Route exact path="/" component={Home} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/register" component={Register} />
-				{/* <Route path="/about" component={About} />
-				<Route path="/topics" component={Topics} /> */}
 			</BrowserRouter>
 		</div>
 	)
