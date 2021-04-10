@@ -1,20 +1,8 @@
 import React from 'react'
 import logo from './../android-chrome-512x512.png'
 import { Link } from 'react-router-dom'
-import { TextField, ThemeProvider, createMuiTheme, Button, Checkbox, FormControlLabel } from '@material-ui/core'
-
-
-const theme = createMuiTheme({
-	palette: {
-		primary:{
-			main: '#E6BC17'
-		},
-		secondary:{
-			main: '#E6BC17'
-		},
-		type: 'dark'
-	}
-})
+import { TextField, ThemeProvider, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+import { theme } from './../theme'
 
 
 export const Login = () => {
