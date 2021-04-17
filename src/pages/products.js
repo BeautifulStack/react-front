@@ -121,7 +121,7 @@ export const Products = () => {
 			<header className='mainPage'>
 				<img src={logo} className='siteLogo'/>
 				<Link to='/products' className='cta-btn'>Home</Link>
-				<Link to='/login' className='cta-btn simple'>Sell a Thing</Link>
+				<Link to='/seller/sell' className='cta-btn simple'>Sell a Thing</Link>
 				<Link to='/login' className='cta-btn simple'>My orders</Link>
 				<Link to='/login' className='cta-btn simple'>My accounts</Link>
 			</header>
