@@ -76,11 +76,16 @@
 .editing-line {
     margin-top: 2em;
     display: flex;
+    align-items: center;
 }
 
 .editing-line > * {
     margin-right: 3em;
     min-width: 100px;
+}
+
+.editing-line > div > span {
+    margin-right: 2em;
 }
 
 .input-wrapper {

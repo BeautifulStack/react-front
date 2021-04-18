@@ -1,12 +1,14 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { ThemeProvider, InputLabel, Select, MenuItem, TextField } from '@material-ui/core'
+import { ThemeProvider, InputLabel, Select, MenuItem, TextField, Button } from '@material-ui/core'
 import { theme } from './../../theme'
+import { requester } from './../../utils/requester'
 
 const Table = ({ objects }) => {
+	if (!objects || objects.length === 0) return <div>Hey</div>
 	const labels = Object.keys(objects[0])
 	return(
 		<table className='TableCustom'>
@@ -48,15 +50,20 @@ const Modal = ({ time, message, type}) => {
 	const ref = useRef()
 
 	useEffect(() => {
-		ref.current.classList.remove('hidden')
 		setTimeout(() => {
-			console.log(ref.current.classList.add('hidden'))
+			ref.current.classList.remove('hidden')
+		}, 10)
+
+		
+		setTimeout(() => {
+			if (ref.current)
+				console.log(ref.current.classList.add('hidden'))
 		}, time)
 	}, [])
 	console.log(type)
 	return (
 		<div className='model-wrapper'>
-			<div ref={ref} className={type + ' modal'}>
+			<div ref={ref} className={type + ' modal hidden'}>
 				<span>{message}</span>
 			</div>
 		</div>
@@ -71,35 +78,82 @@ Modal.propTypes = {
 
 const Products = () => {
 	// eslint-disable-next-line no-unused-vars
-	const [ category, setCategory ] = useState('')
-	const [ brand, setBrand ] = useState('')
+	const [ category, setCategory ] = useState(-1)
+	const [ brand, setBrand ] = useState(-1)
 	const [ editing, setEditing ] = useState(false)
 
-	const models = [{
-		model: 'Iphone X',
-		brand: 'Apple',
-		originalPrice : 1000,
-		additionalInfos: {
-			charge: '24h',
-			attribute: 'Hello'
+	const [ modal, setModal ] = useState(null)
+
+	const [ files, setFiles ] = useState(null)
+
+	const [ modelName, setModelName ] = useState('')
+	const [ modelPrice, setModelPrice ] = useState(0)
+
+	const [ models, setModels ] = useState(null)
+	const [ brands, setBrands ] = useState([])
+	const [ categories, setCategories ] = useState([])
+
+	console.log(brands, categories)
+
+	const changeModal = (args) => {
+		setModal(null)
+		setTimeout(() => {
+			setModal(args)
+		}, 1)
+		
+	}
+
+	useEffect( async () => {
+		const brands = await requester('http://localhost/php-back/Brand/ReadAll', 'GET')
+		if (brands.errors) {
+			changeModal({message: brands.errors[0], time: 3000, type:'failed'})
+		} else {
+			setBrands(brands)
 		}
-	}, {
-		model: 'Iphone X',
-		brand: 'Apple',
-		originalPrice : 1000,
-		additionalInfos: {
-			charge: '24h',
-			attribute: 'Hello'
+		const categories = await requester('http://localhost/php-back/Category/ReadAll', 'GET')
+		if (categories.errors) {
+			changeModal({message: categories.errors[0], time: 3000, type:'failed'})
+		} else {
+			setCategories(categories)
 		}
-	}]
+		
+	}, [])
+
+	useEffect( async () => {
+		const models = await requester('http://localhost/php-back/ProductModel/ReadAll', 'GET')
+		if (models.errors) {
+			changeModal({message: models.errors[0], time: 3000, type:'failed'})
+		} else {
+			setModels(models)
+		}
+		
+	}, [editing])
+
+	const createProductModel = async () => {
+		const params = {
+			modelName: modelName,
+			officialPrice: modelPrice,
+			idBrand: brand,
+			idCategory: category
+		}
+		const response = await requester('http://localhost/php-back/ProductModel/Create', 'POST', params, files)
+		if (response.errors) {
+			changeModal({message: response.errors[0], time: 3000, type:'failed'})
+		} else {
+			changeModal({message: 'Your model has been submited!', time: 3000, type:'success'})
+			setEditing(false)
+		}
+	}
 
 	return (
 		<div className='backoffice-page-wrapper'>
-			<Modal time={2500} message={'Your model has been submited!'} type={'success'}/>
+			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
+			
 			<div className='backoffice-title'>Produits</div>
-			{ !editing 
-				? <span onClick={() => setEditing(true)}className='cta-btn tiny'>Add Product</span> 
-				: <ThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}>
+				{ !editing 
+					? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Product</Button></span>
+					: 
 					<div className='editing-line'>
 						<div className='input-wrapper'>
 							<InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -109,10 +163,11 @@ const Products = () => {
 								value={category}
 								onChange={(event) => {setCategory(event.target.value)}}
 							>
-								<MenuItem value=""><em>None</em></MenuItem>
-								<MenuItem value='smartphone'>Smartphone</MenuItem>
-								<MenuItem value='chantier'>Outils de chantier</MenuItem>
-								<MenuItem value='tracteur'>Tracteur</MenuItem>
+								<MenuItem value={-1}><em>None</em></MenuItem>
+								{categories.length !== 0 
+									? categories.map((category, i) => <MenuItem key={i} value={category.idCategory}>{category.categoryName}</MenuItem>)
+									: null }
+							
 							</Select>
 						</div>
 
@@ -124,23 +179,28 @@ const Products = () => {
 								value={brand}
 								onChange={(event) => {setBrand(event.target.value)}}
 							>   
-								<MenuItem value=""><em>None</em></MenuItem>
-								<MenuItem value={'Apple'}>Apple</MenuItem>
-								<MenuItem value={'Huawei'}>Huawei</MenuItem>
-								<MenuItem value={'Sony'}>Sony</MenuItem>
+								<MenuItem value={-1}><em>None</em></MenuItem>
+								{brands.length !== 0 
+									? brands.map((brand, i) => <MenuItem key={i} value={brand.idBrand}>{brand.brandName}</MenuItem>)
+									: null }
 							</Select>
 						</div>
 						<div>
-							<TextField id="outlined-required" variant="outlined" type="text" label='Product Name'/>
+							<input onChange={(x) => setFiles(x.target.files)} type="file" multiple/>
 						</div>
 						<div>
-							<TextField id="outlined-required" variant="outlined" type="number" label='Original Price'/>
+							<TextField id="outlined-required" variant="outlined" value={modelName} onChange={(x) => setModelName(x.target.value)} type="text" label='Product Name'/>
 						</div>
-						<span  onClick={() => setEditing(false)}className='cta-btn tiny'>Submit</span>
-						<span  onClick={() => setEditing(false)}className='cta-btn tiny'>Cancel</span>
+						<div>
+							<TextField id="outlined-required" variant="outlined" type="number" onChange={(x) => setModelPrice(x.target.value)} label='Original Price'/>
+						</div>
+						<div>
+							<span className='submitBtn' onClick={createProductModel}><Button style={{color: 'black'}} variant="contained" color="primary">Submit</Button></span>
+							<span className='submitBtn' onClick={() => { changeModal({message: 'Model creation aborted', time: 2000, type:'failed'}); setEditing(false) }}><Button style={{color: 'black'}} variant="contained" color="primary">Cancel</Button></span>
+						</div>
 					</div>
-				</ThemeProvider>}
-			
+				}
+			</ThemeProvider> 
 			<span className='backoffice-description'>Produits Disponibles</span>
 			<Table objects={models}/>
 		</div>)
@@ -151,14 +211,16 @@ export const MainOffice = () => {
 		<div className='backoffice-wrapper'>
 			<div className='navigator'>
 				<div className='navigator-centerer'>
-					<span>Utilisateurs</span>	
-					<span>Produits</span>
-					<span>Projets</span>
+					<Link to='/backoffice/users' className='backoffice-nav'><span>Users</span></Link>	
+					<Link to='/backoffice/product' className='backoffice-nav'><span>Products</span></Link>
+					<Link to='/backoffice/projets' className='backoffice-nav'><span>Projets</span></Link>
 				</div>
 			</div>
 			<div className='backoffice-page'>
 				<Switch>
-					<Route path='/backoffice/main' component={Products}/>
+					<Route path='/backoffice/users' component={Products}/>
+					<Route path='/backoffice/projets' component={Products}/>
+					<Route path='/backoffice/product' component={Products}/>
 				</Switch>
 			</div>
 		</div>
