@@ -174,3 +174,14 @@
   flex-direction: column;
   margin-right: 1em;
 }
+
+.sell-all {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceDiv {
+  font-size: 20px;
+  padding-top: 1em;
+  color: white;
+}
