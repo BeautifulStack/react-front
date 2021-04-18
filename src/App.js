@@ -7,6 +7,8 @@ import { Login } from './pages/login'
 import { Register } from './pages/register'
 import { Products } from './pages/products'
 import { MainOffice } from './pages/backoffice/index'
+import { Sell } from './pages/seller/sell'
+
 
 function App() {
 
@@ -18,6 +20,7 @@ function App() {
 				<Route exact path="/register" component={Register} />
 				<Route exact path="/products" component={Products} />
 				<Route path="/backoffice" component={MainOffice} />
+				<Route exact path="/seller/sell" component={Sell} />
 			</BrowserRouter>
 		</div>
 	)
