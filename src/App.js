@@ -6,7 +6,7 @@ import { Home } from './pages/home'
 import { Login } from './pages/login'
 import { Register } from './pages/register'
 import { Products } from './pages/products'
-import { MainOffice } from './pages/backoffice/index'
+import { MainOffice } from './pages/backoffice/router'
 import { Sell } from './pages/seller/sell'
 
 

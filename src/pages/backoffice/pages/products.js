@@ -1,82 +1,13 @@
-import React, { useEffect, useRef } from 'react'
-import { useState } from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { ThemeProvider, InputLabel, Select, MenuItem, TextField, Button } from '@material-ui/core'
-import { theme } from './../../theme'
-import { requester } from './../../utils/requester'
+import { theme } from './../../../theme'
+import { requester } from './../../../utils/requester'
+import { Table } from './../../../utils/table'
+import { Modal } from './../../../utils/modal'
+import { useState } from 'react'
+import React, { useEffect } from 'react'
 
-const Table = ({ objects }) => {
-	if (!objects || objects.length === 0) return <div>Hey</div>
-	const labels = Object.keys(objects[0])
-	return(
-		<table className='TableCustom'>
-			<thead>
-				<tr>
-					{labels.map((name, i) => 
-						<th key={i}>{name}</th>
-					)}
-				</tr>
-			</thead>
-			<tbody>
-				{objects.map((object, i) => {
-					return (<tr className='table-line' key={i}>{labels.map((label,i) => {
-						if (typeof object[label] === 'object') {
-							return (<td key={i} title={Object.entries(object[label]).reduce((acc, [key, value]) => {
-								acc += `${key}: ${value}\n`
-								return acc
-							}, '')}>Hover Me</td>)
-						} else {
-							return (<td key={i}>{
-								object[label]
-							}</td>)
-						}
-
-						
-					})
-					}</tr>)
-				})}
-			</tbody>
-		</table>
-	)
-}
-
-Table.propTypes = {
-	objects: PropTypes.array.isRequired,
-}
-
-const Modal = ({ time, message, type}) => {
-	const ref = useRef()
-
-	useEffect(() => {
-		setTimeout(() => {
-			ref.current.classList.remove('hidden')
-		}, 10)
-
-		
-		setTimeout(() => {
-			if (ref.current)
-				console.log(ref.current.classList.add('hidden'))
-		}, time)
-	}, [])
-	console.log(type)
-	return (
-		<div className='model-wrapper'>
-			<div ref={ref} className={type + ' modal hidden'}>
-				<span>{message}</span>
-			</div>
-		</div>
-	)
-}
-
-Modal.propTypes = {
-	type: PropTypes.string.isRequired,
-	message: PropTypes.string.isRequired,
-	time: PropTypes.number.isRequired,
-}
-
-const Products = () => {
+export const Products = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ category, setCategory ] = useState(-1)
 	const [ brand, setBrand ] = useState(-1)
@@ -149,14 +80,14 @@ const Products = () => {
 		<div className='backoffice-page-wrapper'>
 			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
 			
-			<div className='backoffice-title'>Produits</div>
+			<div className='backoffice-title'>Model</div>
 			<ThemeProvider theme={theme}>
 				{ !editing 
-					? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Product</Button></span>
+					? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Model</Button></span>
 					: 
 					<div className='editing-line'>
 						<div className='input-wrapper'>
-							<InputLabel id="demo-simple-select-label">Category</InputLabel>
+							<InputLabel id="demo-simple-select-label">Model</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
@@ -201,28 +132,7 @@ const Products = () => {
 					</div>
 				}
 			</ThemeProvider> 
-			<span className='backoffice-description'>Produits Disponibles</span>
+			<span className='backoffice-description'>Model Disponibles</span>
 			<Table objects={models}/>
 		</div>)
 }
-
-export const MainOffice = () => {
-	return (
-		<div className='backoffice-wrapper'>
-			<div className='navigator'>
-				<div className='navigator-centerer'>
-					<Link to='/backoffice/users' className='backoffice-nav'><span>Users</span></Link>	
-					<Link to='/backoffice/product' className='backoffice-nav'><span>Products</span></Link>
-					<Link to='/backoffice/projets' className='backoffice-nav'><span>Projets</span></Link>
-				</div>
-			</div>
-			<div className='backoffice-page'>
-				<Switch>
-					<Route path='/backoffice/users' component={Products}/>
-					<Route path='/backoffice/projets' component={Products}/>
-					<Route path='/backoffice/product' component={Products}/>
-				</Switch>
-			</div>
-		</div>
-	)
-} 
