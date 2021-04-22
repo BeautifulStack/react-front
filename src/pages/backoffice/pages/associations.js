@@ -15,8 +15,6 @@ export const Associations = () => {
     const [ assoDesc, setAssoDesc ] = useState('')
 	const [ files, setFiles ] = useState(null)
 
-    console.log(files)
-
     const changeModal = (args) => {
 		setModal(null)
 		setTimeout(() => {
@@ -56,7 +54,7 @@ export const Associations = () => {
             <div className='backoffice-title'>Associations</div>
             <ThemeProvider theme={theme}>
                 { !editing 
-                ? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Product</Button></span> 
+                ? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Association</Button></span> 
                 : <div className='editing-line'>
                         <div>
                             <TextField id="outlined-required" variant="outlined" value={assoName} onChange={(x) => setAssoName(x.target.value)} type="text" label="Association's name"/>
@@ -68,7 +66,7 @@ export const Associations = () => {
 							<input onChange={(x) => setFiles(x.target.files)} type="file"/>
 						</div>
                         <span className='submitBtn' onClick={createAssociation}><Button variant="contained" color="primary">Submit</Button></span> 
-                        <span className='submitBtn' onClick={() => { changeModal({message: 'Model creation aborted', time: 2000, type:'failed'}); setEditing(false) }}><Button variant="contained" color="primary">Cancel</Button></span> 
+                        <span className='submitBtn' onClick={() => { changeModal({message: 'Association creation aborted', time: 2000, type:'failed'}); setEditing(false) }}><Button variant="contained" color="primary">Cancel</Button></span> 
                     </div>}
             </ThemeProvider>
             <span className='backoffice-description'>Associations</span>

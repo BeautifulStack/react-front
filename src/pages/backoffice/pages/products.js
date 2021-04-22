@@ -80,14 +80,14 @@ export const Products = () => {
 		<div className='backoffice-page-wrapper'>
 			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
 			
-			<div className='backoffice-title'>Produits</div>
+			<div className='backoffice-title'>Model</div>
 			<ThemeProvider theme={theme}>
 				{ !editing 
-					? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Product</Button></span>
+					? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Model</Button></span>
 					: 
 					<div className='editing-line'>
 						<div className='input-wrapper'>
-							<InputLabel id="demo-simple-select-label">Category</InputLabel>
+							<InputLabel id="demo-simple-select-label">Model</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
@@ -132,7 +132,7 @@ export const Products = () => {
 					</div>
 				}
 			</ThemeProvider> 
-			<span className='backoffice-description'>Produits Disponibles</span>
+			<span className='backoffice-description'>Model Disponibles</span>
 			<Table objects={models}/>
 		</div>)
 }

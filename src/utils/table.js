@@ -37,5 +37,5 @@ export const Table = ({ objects }) => {
 }
 
 Table.propTypes = {
-	objects: PropTypes.array.isRequired,
+	objects: PropTypes.array,
 }
