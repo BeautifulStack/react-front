@@ -50,10 +50,10 @@ export const Categories = () => {
     return(
         <div className='backoffice-page-wrapper'>
             {modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
-            <div className='backoffice-title'>Brands</div>
+            <div className='backoffice-title'>Category</div>
             <ThemeProvider theme={theme}>
                 { !editing 
-                ? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Brands</Button></span> 
+                ? <span className='submitBtn' onClick={() => setEditing(true)}><Button variant="contained" color="primary">Add Category</Button></span> 
                 : <div className='editing-line'>
                         <div>
                             <TextField id="outlined-required" variant="outlined" value={categoryName} onChange={(x) => setCategoryName(x.target.value)} type="text" label="Category's name" />
@@ -62,7 +62,7 @@ export const Categories = () => {
                         <span className='submitBtn' onClick={() => { changeModal({message: 'Category creation aborted', time: 2000, type:'failed'}); setEditing(false) }}><Button variant="contained" color="primary">Cancel</Button></span> 
                     </div>}
             </ThemeProvider>
-            <span className='backoffice-description'>Associations</span>
+            <span className='backoffice-description'>Category</span>
                 <Table objects={category}/>
             
         </div>

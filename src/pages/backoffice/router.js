@@ -6,6 +6,7 @@ import { Users } from './pages/users'
 import { Associations } from './pages/associations'
 import { Categories } from './pages/category'
 import { Brand } from './pages/brands'
+import { Project } from './pages/projects'
 
 export const MainOffice = () => {
 	return (
@@ -23,7 +24,7 @@ export const MainOffice = () => {
 			<div className='backoffice-page'>
 				<Switch>
 					<Route path='/backoffice/users' component={Users}/>
-					<Route path='/backoffice/projets' component={Products}/>
+					<Route path='/backoffice/projets' component={Project}/>
 					<Route path='/backoffice/associations' component={Associations}/>
 					<Route path='/backoffice/product' component={Products}/>
 					<Route path='/backoffice/categories' component={Categories}/>
