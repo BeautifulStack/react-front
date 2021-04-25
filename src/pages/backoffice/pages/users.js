@@ -1,12 +1,16 @@
-import React,  { useEffect, useState } from 'react'
+import React,  { useEffect, useState, useContext } from 'react'
 import { Modal } from './../../../utils/modal'
 // import { theme } from './../../../theme'
 // import { ThemeProvider } from '@material-ui/core'
 import { Table } from './../../../utils/table'
 import { requester } from '../../../utils/requester'
+import {LoginContext} from './../../../authContext'
 
 export const Users = () => {
-    // eslint-disable-next-line no-unused-vars
+    const context = useContext(LoginContext)
+    console.log(context)
+    // context.setLogged(false)
+    
     const [ modal, setModal ] = useState(null)
     const [ users, setUsers ] = useState([])
 

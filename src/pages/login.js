@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from './../android-chrome-512x512.png'
 import { Link } from 'react-router-dom'
 import { TextField, ThemeProvider, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import { theme } from './../theme'
+import { LoginContext } from './../authContext'
 
 
 export const Login = () => {
+	const context = useContext(LoginContext)
+    console.log(context)
     
 	return (
 		<div className='wrapper' >
@@ -17,7 +20,7 @@ export const Login = () => {
 			<ThemeProvider theme={theme}>
 				<div className='loginForm'>
 					<span className='textWrapper'>
-						<TextField id="outlined-required" variant="outlined" label='Login' color="yellow"/>
+						<TextField id="outlined-required" variant="outlined" label='Login'/>
 					</span>
 					<span className='textWrapper'>
 						<TextField id="outlined-required" variant="outlined" type="password" label='password' />
@@ -29,10 +32,11 @@ export const Login = () => {
 						/>
 					</span>
 					<span className='submitBtn' >
-						<Button variant="contained" color="primary">Login</Button>
+						<Button variant="contained" color="primary" onClick={() => context.setLogged(true)}>Login</Button>
 					</span>
 				</div>
 			</ThemeProvider>
 		</div>
 	)
 }
+
