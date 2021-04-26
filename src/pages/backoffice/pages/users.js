@@ -1,15 +1,11 @@
 import React,  { useEffect, useState, useContext } from 'react'
-import { Modal } from './../../../utils/modal'
-// import { theme } from './../../../theme'
-// import { ThemeProvider } from '@material-ui/core'
-import { Table } from './../../../utils/table'
-import { requester } from '../../../utils/requester'
-import {LoginContext} from './../../../authContext'
+import { Modal } from 'utils/modal'
+import { Table } from 'utils/table'
+import { LoginContext } from 'authContext'
 
 export const Users = () => {
-    const context = useContext(LoginContext)
-    console.log(context)
-    // context.setLogged(false)
+	const context = useContext(LoginContext)
+    const { requester } = context
     
     const [ modal, setModal ] = useState(null)
     const [ users, setUsers ] = useState([])

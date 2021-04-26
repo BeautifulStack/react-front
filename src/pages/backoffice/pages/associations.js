@@ -1,11 +1,13 @@
-import React,  { useEffect, useState } from 'react'
-import { Modal } from './../../../utils/modal'
-import { theme } from './../../../theme'
+import React,  { useEffect, useState, useContext } from 'react'
+import { Modal } from 'utils/modal'
+import { theme } from 'theme'
 import { ThemeProvider, Button, TextField } from '@material-ui/core'
-import { Table } from './../../../utils/table'
-import { requester } from '../../../utils/requester'
+import { Table } from 'utils/table'
+import { LoginContext } from 'authContext'
 
 export const Associations = () => {
+    const context = useContext(LoginContext)
+    const { requester } = context
     const [ modal, setModal ] = useState(null)
     const [ associations, setAssociations ] = useState([])
 

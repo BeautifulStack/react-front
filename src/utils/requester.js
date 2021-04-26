@@ -1,13 +1,13 @@
-export const requester = async (url, method, json, files) => {
+export const requester = async (_authCallback, url, method, json, files) => {
 	if (!files || files.length === 0) {
 		const result = await fetch(url, {
+			credentials: 'include',
 			method: method,
 			headers: {
 				'Accept': 'application/json',
 			},
 			body: JSON.stringify(json)
 		})
-
 		return await result.json()
 	} else {
 		const formData = new FormData()
