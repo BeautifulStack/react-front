@@ -2,10 +2,6 @@ import './App.css'
 import './backoffice.css'
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-<<<<<<< HEAD
-
-=======
->>>>>>> cda51a630b4bf5476465ce51abafbdb6437c6348
 import { Home } from './pages/home'
 import { Login } from './pages/login'
 import { Register } from './pages/register'
@@ -16,8 +12,6 @@ import { Account } from './pages/account'
 
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
-import { LoginContext } from './authContext'
-import { requester } from 'utils/requester'
 
 function App() {
 	const [ logged, setLogged ] = useState(false)
