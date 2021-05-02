@@ -9,6 +9,7 @@
     background-color: #15140F;
     display: flex;
     align-items: stretch;
+    overflow-y: scroll;
 }
 
 .navigator {
@@ -17,8 +18,10 @@
 
     color: white;
     background-color: #4c50516e;
-
+    top: 0px;
+    left: 0px;
     display: flex;
+    position: sticky;
     flex-direction: column;
     align-items: center;
     justify-content: center;

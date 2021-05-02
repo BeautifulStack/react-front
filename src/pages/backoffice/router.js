@@ -8,17 +8,26 @@ import { Categories } from './pages/category'
 import { Brand } from './pages/brands'
 import { Project } from './pages/projects'
 
+import user from 'images/user.svg'
+import brand from 'images/brand-codepen.svg'
+import category from 'images/category-alt.svg'
+import products from 'images/barcode.svg'
+import project from 'images/project.svg'
+import associations from 'images/building.svg'
+import website from 'images/website.svg'
+
 export const MainOffice = () => {
 	return (
 		<div className='backoffice-wrapper'>
 			<div className='navigator'>
 				<div className='navigator-centerer'>
-					<Link to='/backoffice/users' className='backoffice-nav'><span>Users</span></Link>
-					<Link to='/backoffice/brands' className='backoffice-nav'><span>Brands</span></Link>
-					<Link to='/backoffice/categories' className='backoffice-nav'><span>Categories</span></Link>
-					<Link to='/backoffice/product' className='backoffice-nav'><span>Model</span></Link>
-					<Link to='/backoffice/associations' className='backoffice-nav'><span>Associations</span></Link>
-					<Link to='/backoffice/projets' className='backoffice-nav'><span>Projets</span></Link>
+					<Link to='/backoffice/users' className='backoffice-nav'><img className='nav-img' src={user}/></Link>
+					<Link to='/backoffice/brands' className='backoffice-nav'><img className='nav-img' src={brand}/></Link>
+					<Link to='/backoffice/categories' className='backoffice-nav'><img className='nav-img' src={category}/></Link>
+					<Link to='/backoffice/product' className='backoffice-nav'><img className='nav-img' src={products}/></Link>
+					<Link to='/backoffice/associations' className='backoffice-nav'><img className='nav-img' src={associations}/></Link>
+					<Link to='/backoffice/projets' className='backoffice-nav'><img className='nav-img' src={project}/></Link>
+					<Link to='/products' className='backoffice-nav'><img className='nav-img' src={website}/></Link>
 				</div>
 			</div>
 			<div className='backoffice-page'>

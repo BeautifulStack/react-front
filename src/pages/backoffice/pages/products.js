@@ -1,14 +1,15 @@
 
 import { ThemeProvider, InputLabel, Select, MenuItem, TextField, Button } from '@material-ui/core'
-import { theme } from './../../../theme'
-import { requester } from './../../../utils/requester'
-import { Table } from './../../../utils/table'
-import { Modal } from './../../../utils/modal'
+import { theme } from 'theme'
+import { Table } from 'utils/table'
+import { Modal } from 'utils/modal'
 import { useState } from 'react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
+import { LoginContext } from 'authContext'
 
 export const Products = () => {
-	// eslint-disable-next-line no-unused-vars
+	const context = useContext(LoginContext)
+    const { requester } = context
 	const [ category, setCategory ] = useState(-1)
 	const [ brand, setBrand ] = useState(-1)
 	const [ editing, setEditing ] = useState(false)
