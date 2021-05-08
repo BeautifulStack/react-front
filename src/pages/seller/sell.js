@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState, useContext } from 'react'
 import logo from './../../android-chrome-512x512.png'
 import { Link } from 'react-router-dom'
 import { TextField, ThemeProvider, createMuiTheme, Button, Select, InputLabel, MenuItem } from '@material-ui/core'
-
-// import { TextField, ThemeProvider, createMuiTheme, Button, Checkbox, FormControlLabel, Select, InputLabel, MenuItem } from '@material-ui/core'
+import { LoginContext } from 'authContext'
 
 const theme = createMuiTheme({
 	palette: {
@@ -18,59 +18,52 @@ const theme = createMuiTheme({
 })
 
 export const Sell = () => {
+    const context = useContext(LoginContext)
 
-    const modelXBrand = [{
-        brand: 'Apple',
-        models: [{
-            name: 'Iphone X',
-            originalPrice: 150
-        },
-        {
-            name: 'Iphone XI',
-            originalPrice: 200
-        },
-        {
-            name: 'Iphone XII',
-            originalPrice: 450
-        }]
-    },
-    {
-        brand: 'Xiaomi',
-        models: [{
-            name: 'Redmi 1',
-            originalPrice: 25
-        },
-        {
-            name: 'Redmi 2',
-            originalPrice: 50
-        },
-        {
-            name: 'Redmi 3',
-            originalPrice: 100
-        }]
-    }]
-
-    const [ proposedPrice, setProposedPrice ] = useState(250)
-    const [ brand, setBrand ] = useState(modelXBrand[0].brand)
-
+    const [ listModels, setListModels ] = useState([])
+    const [ proposedPrice, setProposedPrice ] = useState(-1)
+    const [ brand, setBrand ] = useState('None')
     const [ condition, setCondition ] = useState(0)
     const [ box, setBox ] = useState(0)
-
     const [ model, setModel ] = useState('None')
 
-    useEffect(() => {
-        setModel('None')
-        setProposedPrice(-1)
-    }, [brand])
+    useEffect(async () => {
+        if (brand !== 'None' && model !== 'None') {
+            const params = {
+                modelId: model,
+                accessories: box,
+                state: condition
+            }
+            const estimation =  await context.requester('http://localhost/php-back/estimate/', 'POST', params)
+            if (estimation.estimation) {
+                setProposedPrice(estimation.estimation)
+            }
+        }
 
-    useEffect(() => {
-        if (model === 'None') return
-        const selectedBrand = modelXBrand.find(model => model.brand === brand)
-        const selectedModel = selectedBrand.models.find(models => models.name === model)
-        setProposedPrice(Math.round(selectedModel.originalPrice / 2))
-    }, [model])
+    }, [model, box, condition])
 
-    const models = modelXBrand.find(model => model.brand === brand)
+    useEffect(async () => {
+        const modelsXbrand =  await context.requester('http://localhost/php-back/ProductModel/ReadAll')
+        if (modelsXbrand.errors) {
+            console.error(modelsXbrand.errors)
+        } else {
+            const total = []
+            modelsXbrand.forEach(model => {
+                if (!total.includes(model.brandbrandName)) total.push(model.brandbrandName)
+            })
+
+            const model = {}
+            total.forEach(brand => {
+                model[brand] = []
+            })
+
+
+            modelsXbrand.forEach((singleModel) => {
+                model[singleModel.brandbrandName].push({id: singleModel.idModel, name: singleModel.modelName, price: singleModel.officialPrice, category: singleModel.categorycategoryName, brand: singleModel.brandbrandName})
+            })           
+            setListModels(model)
+        }
+    }, [])
 
     return (		
     <div className='wrapper' >
@@ -91,8 +84,8 @@ export const Sell = () => {
                         value={brand}
                         onChange={(x) => setBrand(x.target.value)}
                         >
-                            {modelXBrand.map((brand, i) => 
-                                <MenuItem key={i} value={brand.brand}>{brand.brand}</MenuItem>
+                            {Object.keys(listModels).map((brand, i) => 
+                                <MenuItem key={i} value={brand}>{brand}</MenuItem>
                             )}
                         </Select>
                         </span>
@@ -104,9 +97,9 @@ export const Sell = () => {
                             value={model}
                             onChange={(x) => setModel(x.target.value)}
                             >
-                                {models.models.map((model, i) => {
-                                    return <MenuItem key={i} value={model.name}>{model.name}</MenuItem>
-                                })}
+                                {brand !== 'None' ? listModels[brand].map((model, i) => {
+                                    return <MenuItem key={i} value={model.id}>{model.name}</MenuItem>
+                                })  : <></> }
 
                             </Select>
                         </span>
@@ -148,15 +141,8 @@ export const Sell = () => {
                     <span className='textWrapper'>
 						<TextField id="outlined-required" variant="outlined" type="text" label='Tell us more about the product' />
 					</span>
-{/* 
-                    <span className='checkbox'>
-						<FormControlLabel
-							control={<Checkbox onChange={(x) => console.log(x)} name="jason" />}
-							label='Remember Connection'
-						/>
-					</span> */}
                     <span className='priceDiv'>
-                        For this product, we can propose you: <strong>{proposedPrice}</strong>!
+                        {proposedPrice !== -1 ? <>For this product, we can propose you: <strong>{proposedPrice}</strong>!</> : <>To Estimate your product, please fill all the fields</>}
                     </span>
 					<span className='submitBtn' >
 						<Button variant="contained" color="primary">Propose Product</Button>
