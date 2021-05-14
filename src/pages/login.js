@@ -4,24 +4,35 @@ import { Link, Redirect } from 'react-router-dom'
 import { TextField, ThemeProvider, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import { theme } from './../theme'
 import { LoginContext } from 'authContext'
+import { Modal } from 'utils/modal'
 
 export const Login = () => {
 	const context = useContext(LoginContext)
 
 	const [ email, setEmail ] = useState('')
 	const [ password, setPassword ] = useState('')
+	const [ modal, setModal ] = useState(null)
+
+	const changeModal = (args) => {
+		setModal(null)
+		setTimeout(() => {
+			setModal(args)
+		}, 1)
+	}
 
 	const login = async () => {
 		const result = await context.requester('http://localhost/php-back/login/', 'POST', {email, password})
 		if (result.id) {
 			context.setLogged(true)
+		} else {
+			changeModal({message: result.errors[0], time: 3000, type:'failed'})
 		}
 	}
 
 	if (context.logged) return <Redirect to="/"/>
-    
 	return (
 		<div className='wrapper' >
+			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
 			<header className='mainPage'>
 				<img src={logo} className='siteLogo'/>
 				<span className='siteName'>FairRepack</span>
