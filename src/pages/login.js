@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import logo from './../android-chrome-512x512.png'
 import { Link, Redirect } from 'react-router-dom'
 import { TextField, ThemeProvider, Button, Checkbox, FormControlLabel } from '@material-ui/core'
-import { theme } from './../theme'
+import { theme } from '../theme'
 import { LoginContext } from 'authContext'
 import { Modal } from 'utils/modal'
 
