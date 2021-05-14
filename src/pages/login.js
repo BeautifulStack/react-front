@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import logo from './../android-chrome-512x512.png'
+import { Logo } from 'utils/Logo'
 import { Link, Redirect } from 'react-router-dom'
 import { TextField, ThemeProvider, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import { theme } from '../theme'
@@ -34,7 +34,7 @@ export const Login = () => {
 		<div className='wrapper' >
 			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo' alt="logo"/>
+				<Logo/>
 				<span className='siteName'>FairRepack</span>
 				<Link to='/register' className='cta-btn'>Register</Link>
 			</header>

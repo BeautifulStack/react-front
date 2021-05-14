@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import logo from './../android-chrome-512x512.png'
 import { Link } from 'react-router-dom'
 import { TextField, ThemeProvider, Button } from '@material-ui/core'
 import { theme } from '../theme'
+import { Logo } from 'utils/Logo'
 
 export const Register = () => {
 	const [ passwordConfirmation, setPasswordConfirmation ] = useState('')
@@ -11,7 +11,7 @@ export const Register = () => {
 	return (
 		<div className='wrapper' >
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo' alt="logo"/>
+				<Logo/>
 				<span className='siteName'>FairRepack</span>
 				<Link to='/login' className='cta-btn'>Login</Link>
 			</header>

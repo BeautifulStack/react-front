@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import logo from './../android-chrome-512x512.png'
+import { Logo } from 'utils/Logo'
 import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
 
@@ -9,7 +9,7 @@ export const Home = () => {
 	return (
 		<div className='wrapper' >
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo'/>
+				<Logo/>
 				<span className='siteName'>FairRepack</span>
 				{context.logged 
 				? <button className='cta-btn' onClick={() => context.logout()}>Logout</button>

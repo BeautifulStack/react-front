@@ -49,6 +49,12 @@
 
 .siteLogo {
   width: 150px;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.siteLogo:hover {
+  box-shadow: 0 0 15px #E6E6E6;
 }
 
 .divAnim {
