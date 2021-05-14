@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import logo from './../android-chrome-512x512.png'
+import { Logo } from 'utils/Logo'
 import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
 
@@ -138,7 +138,7 @@ export const Products = () => {
 	return (
 		<div className='wrapper' >
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo'/>
+				<Logo/>
 				<Link to='/products' className='cta-btn'>Home</Link>
 				<Link to='/seller/sell' className='cta-btn simple'>Sell a Thing</Link>
 				<Link to='/login' className='cta-btn simple'>My orders</Link>

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useContext } from 'react'
-import logo from './../../android-chrome-512x512.png'
+import { Logo } from 'utils/Logo'
 import { Link } from 'react-router-dom'
 import { TextField, ThemeProvider, createMuiTheme, Button, Select, InputLabel, MenuItem } from '@material-ui/core'
 import { LoginContext } from 'authContext'
@@ -68,7 +68,7 @@ export const Sell = () => {
     return (		
     <div className='wrapper' >
         <header className='mainPage'>
-            <img src={logo} className='siteLogo'/>
+            <Logo/>
             <Link to='/products' className='cta-btn simple'>Home</Link>
             <Link to='/seller/sell' className='cta-btn'>Sell a Thing</Link>
             <Link to='/login' className='cta-btn simple'>My orders</Link>
