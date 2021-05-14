@@ -234,3 +234,10 @@
 .nav-img {
   width: 2em;
 }
+
+.wrapper-middle {
+  display: flex;
+  width: 40%;
+  text-align: center;
+  margin: 5em auto;
+}
