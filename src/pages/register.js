@@ -24,7 +24,7 @@ export const Register = () => {
 	return (
 		<div className='wrapper' >
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo'/>
+				<img src={logo} className='siteLogo' alt="logo"/>
 				<span className='siteName'>FairRepack</span>
 				<Link to='/login' className='cta-btn'>Login</Link>
 			</header>
