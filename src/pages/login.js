@@ -34,7 +34,7 @@ export const Login = () => {
 		<div className='wrapper' >
 			{modal ? <Modal time={modal.time} message={modal.message} type={modal.type}/> : null }
 			<header className='mainPage'>
-				<img src={logo} className='siteLogo'/>
+				<img src={logo} className='siteLogo' alt="logo"/>
 				<span className='siteName'>FairRepack</span>
 				<Link to='/register' className='cta-btn'>Register</Link>
 			</header>
