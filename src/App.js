@@ -9,45 +9,57 @@ import { Products } from './pages/products'
 import { MainOffice } from './pages/backoffice/router'
 import { Sell } from './pages/seller/sell'
 import { Account } from './pages/account'
+import { Validation } from './pages/waitingValidation'
 
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
 
 function App() {
-	const [ logged, setLogged ] = useState(false)
+  const [logged, setLogged] = useState(false)
 
-	useEffect(async () => {
-		const result = await context.requester('http://localhost/php-back/login/', 'POST')
-		if (result.id) {
-			setLogged(true)
-		}
-	}, [])
+  useEffect(async () => {
+    const result = await context.requester(
+      'http://localhost/php-back/login/',
+      'POST'
+    )
+    if (result.id) {
+      setLogged(true)
+    }
+  }, [])
 
-	const context = {logged, setLogged, requester: requester.bind(this, setLogged), logout: logout.bind(this, setLogged)}
+  const context = {
+    logged,
+    setLogged,
+    requester: requester.bind(this, setLogged),
+    logout: logout.bind(this, setLogged),
+  }
 
-	return (
-		<LoginContext.Provider value={context}>
-			<div className="App">
-				<BrowserRouter>
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/login"component={Login} />
-					<Route exact path="/register" component={Register} />
-					<Route exact path="/products" component={Products} />
-					
-				{ !logged ? 
-				<Route path="/" component={Login} />
-				: <> 
-					<Route exact path="/user/account"component={Account} />
-					<Route exact path="/products" component={Products} />
-					<Route path="/backoffice" component={MainOffice} />
-					<Route exact path="/seller/sell" component={Sell} />
-					</>}
-					</Switch>
-				</BrowserRouter>
-			</div>
-		</LoginContext.Provider>
-	)
+  return (
+    <LoginContext.Provider value={context}>
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/products" component={Products} />
+            <Route exact path="/account/validation" component={Validation} />
+
+            {!logged ? (
+              <Route path="/" component={Login} />
+            ) : (
+              <>
+                <Route exact path="/user/account" component={Account} />
+                <Route exact path="/products" component={Products} />
+                <Route path="/backoffice" component={MainOffice} />
+                <Route exact path="/seller/sell" component={Sell} />
+              </>
+            )}
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </LoginContext.Provider>
+  )
 }
 
 export default App
