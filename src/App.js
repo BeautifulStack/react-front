@@ -10,6 +10,7 @@ import { MainOffice } from './pages/backoffice/router'
 import { Sell } from './pages/seller/sell'
 import { Account } from './pages/account'
 import { Validation } from './pages/waitingValidation'
+import { Cart } from './pages/Cart'
 
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
@@ -50,6 +51,7 @@ function App() {
             ) : (
               <>
                 <Route exact path="/user/account" component={Account} />
+                <Route exact path="/account/cart" component={Cart} />
                 <Route exact path="/products" component={Products} />
                 <Route path="/backoffice" component={MainOffice} />
                 <Route exact path="/seller/sell" component={Sell} />

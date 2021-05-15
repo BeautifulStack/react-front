@@ -237,7 +237,37 @@
 
 .wrapper-middle {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 40%;
   text-align: center;
   margin: 5em auto;
+}
+
+.cart-logo {
+  color: black;
+  padding: 1em 2em;
+background-color: #E6BC17;
+}
+
+.cart {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch
+}
+
+.cart-object {
+  align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px dashed #E6BC17;
+}
+
+.cart-object > span {
+  background-color:#4c50516e;
+  margin: .5em 0.2em;
+  padding: .5em 1em;
+  flex: 1;
 }
