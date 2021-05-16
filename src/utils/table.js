@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const Table = ({ objects }) => {
+export const Table = ({ objects, callback }) => {
   if (!objects || objects.length === 0) return <div>Nothing to Display</div>
   const labels = Object.keys(objects[0])
   return (
@@ -16,7 +16,11 @@ export const Table = ({ objects }) => {
       <tbody>
         {objects.map((object, i) => {
           return (
-            <tr className="table-line" key={i}>
+            <tr
+              className="table-line"
+              key={i}
+              onClick={callback ? callback.bind(this, object) : null}
+            >
               {labels.map((label, i) => {
                 if (typeof object[label] === 'object') {
                   object[label] = object[label] ? object[label] : 'None'
@@ -48,4 +52,5 @@ export const Table = ({ objects }) => {
 
 Table.propTypes = {
   objects: PropTypes.array,
+  callback: PropTypes.func,
 }

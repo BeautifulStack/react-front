@@ -69,25 +69,58 @@ export const Activities = () => {
                 return model.idModel === offer.idModel
               })
               nameModel = model ? model.modelName : nameModel
+              let status = ''
+              if (offer.isAccepted === '1') status = 'Accepted'
+              if (offer.isAccepted === '0') status = 'No Response'
+              if (offer.isAccepted === '2') status = 'Refused'
+              if (offer.isAccepted === '2' && !offer.counterOffer)
+                status = 'Closed'
+
+              let newOffer = false
+              if (offer.counterOffer) {
+                offer.counterOffer.forEach((suboffer) => {
+                  if (suboffer.isAccepted === '0') {
+                    newOffer = true
+                  }
+
+                  if (suboffer.isAccepted === '2' && !suboffer.counterOffer)
+                    status = 'Closed'
+                })
+              }
 
               return (
-                <div key={i} className="cart-object">
-                  <span>{offer.idOffer}</span>
-                  <span>{nameModel}</span>
-                  <span>{offer.conditionOffer}</span>
-                  <span>Prix: {offer.price}€</span>
-                  <span>
-                    {offer.isAccepted === 0 ? 'Accepted' : 'Not Accepted'}
-                  </span>
-                  <span style={{ flex: '2' }}>{offer.dateOffer}</span>
+                <div
+                  key={i}
+                  style={{
+                    borderBottom: '1px dashed #E6BC17',
+                    paddingBottom: '.5em',
+                  }}
+                >
+                  <div className="cart-object" style={{ borderBottom: 'none' }}>
+                    <span>{offer.idOffer}</span>
+                    <span>{nameModel}</span>
+                    <span>{offer.conditionOffer}</span>
+                    <span>Prix: {offer.price}€</span>
+                    <span>{status}</span>
+                    <span style={{ flex: '2' }}>{offer.dateOffer}</span>
 
-                  <div
-                    onClick={() => console.log('a')}
-                    id={offer.idProduct}
-                    style={{ marginLeft: '.5em', cursor: 'pointer' }}
-                  >
-                    X
+                    <div
+                      onClick={() => console.log('a')}
+                      id={offer.idProduct}
+                      style={{ marginLeft: '.5em', cursor: 'pointer' }}
+                    >
+                      X
+                    </div>
                   </div>
+                  {newOffer ? (
+                    <div>
+                      <span style={{ color: '#E6BC17' }}>
+                        A New Offer is available
+                      </span>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               )
             })}
