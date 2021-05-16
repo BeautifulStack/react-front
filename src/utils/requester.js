@@ -25,6 +25,8 @@ export const requester = async (_authCallback, url, method, json, files) => {
 			body: formData
 		})
 
+		console.log('debug')
+
 		return await result.json()
 	}
 

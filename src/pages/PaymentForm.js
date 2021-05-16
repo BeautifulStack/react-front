@@ -9,6 +9,7 @@ export const PaymentForm = () => {
     const stripe = useStripe()
     const elements = useElements()
     const [disabled, setDisabled] = useState(true)
+    const [success, setSuccess] = useState(false)
     const context = useContext(LoginContext)
     const { requester } = context
     const [modal, setModal] = useState(null)
@@ -29,7 +30,8 @@ export const PaymentForm = () => {
                 color: '#fa755a',
                 iconColor: '#fa755a'
             }
-        }
+        },
+        hidePostalCode: true
     }
 
     const changeModal = (args) => {
@@ -65,11 +67,11 @@ export const PaymentForm = () => {
             changeModal({ message: error.message, time: 3000, type: 'failed' })
         } else {
             console.log('[PaymentMethod]', paymentMethod)
-            const res = await requester('http://localhost/php-back/Payment/Create', 'POST', {payment_method: paymentMethod})
+            const res = await requester('http://localhost/php-back/Payment/Create', 'POST', {payment_method: paymentMethod.id})
             console.log(res)
-
+            if (res.status === 'succeeded') setSuccess(true)
+            else changeModal({ message: res.status, time: 3000, type: 'failed'})
         }
-
     }
 
     const handleChange = async (event) => {
@@ -79,20 +81,26 @@ export const PaymentForm = () => {
     }
 
     return (
-
         <form onSubmit={handleSubmit} className="payment-form">
             {modal ? (
                 <Modal time={modal.time} message={modal.message} type={modal.type} />
             ) : null}
-            <CardElement onChange={handleChange} options={cardStyle}/>
-            <ThemeProvider theme={theme}>
-                <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
-                    <Button type="submit" variant="contained" color="primary" role="link" disabled={!stripe || disabled}
-                    style={{width: '100%'}}>
-                        Pay
-                    </Button>
-                </div>
-            </ThemeProvider>
+            {success ? (
+                <h2 style={{color: 'green', textAlign: 'center'}}>Success !</h2>
+            ): null}
+            {!success ? (
+                <CardElement onChange={handleChange} options={cardStyle}/>
+            ): null}
+            {!success ? (
+                <ThemeProvider theme={theme}>
+                    <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
+                        <Button type="submit" variant="contained" color="primary" role="link" disabled={!stripe || disabled} style={{width: '100%'}}>
+                            Pay
+                        </Button>
+                    </div>
+                </ThemeProvider>
+            ): null}
+
         </form>
     )
 }

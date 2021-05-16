@@ -51,7 +51,7 @@ export const Payment = () => {
         <Fade bottom>
           <h1>Total : {price} €</h1>
           <div className="wrapper-middle">
-            <Elements stripe={stripePromise}>
+            <Elements stripe={stripePromise} >
               <PaymentForm />
             </Elements>
           </div>
