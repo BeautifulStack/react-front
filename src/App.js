@@ -11,7 +11,7 @@ import { Sell } from './pages/seller/sell'
 import { Account } from './pages/account'
 import { Validation } from './pages/waitingValidation'
 import { Cart } from './pages/Cart'
-
+import { Activities } from './pages/activities'
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
 
@@ -51,6 +51,12 @@ function App() {
             ) : (
               <>
                 <Route exact path="/user/account" component={Account} />
+                <Route
+                  exact
+                  path="/account/activities"
+                  component={Activities}
+                />
+
                 <Route exact path="/account/cart" component={Cart} />
                 <Route exact path="/products" component={Products} />
                 <Route path="/backoffice" component={MainOffice} />
