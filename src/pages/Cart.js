@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import {useHistory} from 'react-router'
 import { Logo } from 'utils/Logo'
 import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
@@ -9,6 +10,7 @@ export const Cart = () => {
   const context = useContext(LoginContext)
   const { requester } = context
   const [products, setProducts] = useState([])
+  const history = useHistory()
 
   const updateCart = async () => {
     const res = await requester('http://localhost/php-back/Cart/Content', 'GET')
@@ -21,6 +23,10 @@ export const Cart = () => {
         type: 'failed',
       })
     }
+  }
+
+  const goCheckout = () => {
+    history.push('/account/checkout')
   }
 
   const removeArticle = async (e) => {
@@ -54,33 +60,35 @@ export const Cart = () => {
           </Link>
         )}
       </header>
-      <div className="wrapper-middle">
-        <h3>Cart</h3>
-        <span>You will buy the following items</span>
-        <div className="cart">
-          {products.map((product, i) => {
-            return (
-              <div key={i} className="cart-object">
-                <span>{product.product_modelmodelName}</span>
-                <span>Condition: {product.conditionProduct}</span>
-                <span>From: {product.warehouselocation}</span>
-                <div
-                  onClick={removeArticle}
-                  id={product.idProduct}
-                  style={{ marginLeft: '.5em', cursor: 'pointer' }}
-                >
-                  X
-                </div>
+      <div className="show-cart">
+        <div className="wrapper-middle">
+          <h3>Cart</h3>
+          <span>You will buy the following items</span>
+          <div className="cart">
+            {products.map((product, i) => {
+              return (
+                  <div key={i} className="cart-object">
+                    <span>{product.product_modelmodelName}</span>
+                    <span>Condition: {product.conditionProduct}</span>
+                    <span>From: {product.warehouselocation}</span>
+                    <div
+                        onClick={removeArticle}
+                        id={product.idProduct}
+                        style={{ marginLeft: '.5em', cursor: 'pointer' }}
+                    >
+                      X
+                    </div>
+                  </div>
+              )
+            })}
+            <ThemeProvider theme={theme}>
+              <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
+                <Button variant="contained" color="primary" role="link" onClick={goCheckout}>
+                  Checkout
+                </Button>
               </div>
-            )
-          })}
-          <ThemeProvider theme={theme}>
-            <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
-              <Button variant="contained" color="primary">
-                Go to paiement
-              </Button>
-            </div>
-          </ThemeProvider>
+            </ThemeProvider>
+          </div>
         </div>
       </div>
     </div>

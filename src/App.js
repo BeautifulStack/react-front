@@ -14,6 +14,7 @@ import { Cart } from './pages/Cart'
 
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
+import {Payment} from './pages/Payment'
 
 function App() {
   const [logged, setLogged] = useState(false)
@@ -52,6 +53,7 @@ function App() {
               <>
                 <Route exact path="/user/account" component={Account} />
                 <Route exact path="/account/cart" component={Cart} />
+                <Route exact path="/account/checkout" component={Payment} />
                 <Route exact path="/products" component={Products} />
                 <Route path="/backoffice" component={MainOffice} />
                 <Route exact path="/seller/sell" component={Sell} />

@@ -239,7 +239,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 40%;
+  width: 50%;
   text-align: center;
   margin: 5em auto;
 }
@@ -270,4 +270,12 @@ background-color: #E6BC17;
   margin: .5em 0.2em;
   padding: .5em 1em;
   flex: 1;
+}
+
+.payment-form {
+  width: 100%;
+  /*background-color: #4C5051;*/
+  padding: 1.5em 1em;
+  border: .1em solid #E6E6E6;
+  border-radius: 10px;
 }
