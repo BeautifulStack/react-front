@@ -48,14 +48,19 @@ export const Payment = () => {
         )}
       </header>
       <div className="wrapper-middle">
-        <Fade bottom>
-          <h1>Total : {price} €</h1>
-          <div className="wrapper-middle">
-            <Elements stripe={stripePromise} >
-              <PaymentForm />
-            </Elements>
-          </div>
-        </Fade>
+        {price === 0 ? (
+            <h1>Empty cart...</h1>
+        ) : (
+          <Fade bottom>
+            <h1>Total : {price} €</h1>
+            <div className="wrapper-middle">
+              <Elements stripe={stripePromise}>
+                <PaymentForm />
+              </Elements>
+            </div>
+          </Fade>
+        )
+        }
       </div>
     </div>
   )

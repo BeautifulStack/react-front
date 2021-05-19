@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
-import { Button, ThemeProvider } from '@material-ui/core'
+import {Button, TextField, ThemeProvider} from '@material-ui/core'
 import { theme } from 'theme'
 import { LoginContext } from 'authContext'
 import { Modal } from 'utils/modal'
@@ -9,6 +9,7 @@ export const PaymentForm = () => {
     const stripe = useStripe()
     const elements = useElements()
     const [disabled, setDisabled] = useState(true)
+    const [delivery, setDelivery] = useState(null)
     const [success, setSuccess] = useState(false)
     const context = useContext(LoginContext)
     const { requester } = context
@@ -67,10 +68,12 @@ export const PaymentForm = () => {
             changeModal({ message: error.message, time: 3000, type: 'failed' })
         } else {
             console.log('[PaymentMethod]', paymentMethod)
-            const res = await requester('http://localhost/php-back/Payment/Create', 'POST', {payment_method: paymentMethod.id})
+            const res = await requester('http://localhost/php-back/Payment/Create',
+                'POST',
+                {payment_method: paymentMethod.id, delivery_address: delivery})
             console.log(res)
             if (res.status === 'succeeded') setSuccess(true)
-            else changeModal({ message: res.status, time: 3000, type: 'failed'})
+            else changeModal({ message: res.message, time: 3000, type: 'failed'})
         }
     }
 
@@ -81,26 +84,34 @@ export const PaymentForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="payment-form">
-            {modal ? (
-                <Modal time={modal.time} message={modal.message} type={modal.type} />
-            ) : null}
+        <div className="payment-form">
             {success ? (
                 <h2 style={{color: 'green', textAlign: 'center'}}>Success !</h2>
-            ): null}
-            {!success ? (
-                <CardElement onChange={handleChange} options={cardStyle}/>
-            ): null}
-            {!success ? (
-                <ThemeProvider theme={theme}>
-                    <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
-                        <Button type="submit" variant="contained" color="primary" role="link" disabled={!stripe || disabled} style={{width: '100%'}}>
-                            Pay
-                        </Button>
-                    </div>
-                </ThemeProvider>
-            ): null}
-
-        </form>
+            ): (
+                <form onSubmit={handleSubmit}>
+                    {modal ? (
+                        <Modal time={modal.time} message={modal.message} type={modal.type} />
+                    ) : null}
+                    <ThemeProvider theme={theme}>
+                        <span className='textWrapper'>
+                            <TextField
+                                id="outlined-required"
+                                variant="outlined"
+                                type="text"
+                                label='Delivery address'
+                                onChange={(x) => setDelivery(x.target.value)}/>
+                        </span>
+                        <br/>
+                        <CardElement onChange={handleChange} options={cardStyle}/>
+                        <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
+                            <Button type="submit" variant="contained" color="primary" role="link" disabled={!stripe || disabled} style={{width: '100%'}}>
+                                Pay
+                            </Button>
+                        </div>
+                    </ThemeProvider>
+                </form>
+            )
+            }
+        </div>
     )
 }
