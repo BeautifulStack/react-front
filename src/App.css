@@ -279,3 +279,45 @@ background-color: #E6BC17;
   border: .1em solid #E6E6E6;
   border-radius: 10px;
 }
+
+.offer-line {
+  margin: .2em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  border-bottom: 1px dashed #E6BC17;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.offer-line-inner {
+  display: flex;
+   justify-content: space-between
+}
+
+.offer-line-inner > * {
+  flex: 1;
+  background-color: #4c50516e;
+  margin: .2em;
+  padding: 1em
+}
+
+.refused-offer {
+  background-color: rgba(255,255,255,0.4);
+}
+
+.closed-offer {
+  background-color: rgba(255,0,0,0.4);
+}
+
+.accepted-offer {
+  background-color: rgba(0,255,0,0.4);
+
+}
+
+.offer-btn  {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between
+}

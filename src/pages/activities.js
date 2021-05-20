@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Logo } from 'utils/Logo'
-
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { theme } from 'theme'
-import { ThemeProvider } from '@material-ui/core'
+import { ThemeProvider, Button } from '@material-ui/core'
 import { LoginContext } from 'authContext'
 
 export const Activities = () => {
   const context = useContext(LoginContext)
   const [offer, setOffer] = useState([])
   const [models, setModels] = useState([])
+
+  const history = useHistory()
 
   useEffect(async () => {
     const res = await context.requester(
@@ -40,6 +42,10 @@ export const Activities = () => {
 
     setModels(tmp)
   }, [offer])
+
+  const clickHandler = (id) => {
+    history.push('/account/activities/offer/' + id)
+  }
 
   return (
     <div className="wrapper">
@@ -90,6 +96,7 @@ export const Activities = () => {
 
               return (
                 <div
+                  onClick={clickHandler.bind(this, offer.idOffer)}
                   key={i}
                   style={{
                     borderBottom: '1px dashed #E6BC17',
@@ -129,4 +136,110 @@ export const Activities = () => {
       </div>
     </div>
   )
+}
+
+export const ActivitiesById = () => {
+  const context = useContext(LoginContext)
+  const { requester } = context
+  const { id } = useParams()
+
+  const [offers, setOffers] = useState([])
+
+  useEffect(async () => {
+    const resp = await requester(
+      'http://localhost/php-back/Offer/History?id=32'
+    )
+    if (resp.errors) {
+      console.log(resp.errors)
+    } else {
+      setOffers(resp)
+    }
+  }, [])
+
+  console.log(offers)
+
+  return (
+    <div className="wrapper">
+      <header className="mainPage">
+        <Logo />
+        <Link to="/products" className="cta-btn simple">
+          Home
+        </Link>
+        <Link to="/seller/sell" className="cta-btn simple">
+          Sell a Thing
+        </Link>
+        <Link to="/account/activities" className="cta-btn ">
+          My Activities
+        </Link>
+        <Link to="/user/account" className="cta-btn simple">
+          My accounts
+        </Link>
+      </header>
+      <div className="wrapper-middle" style={{ width: '55%' }}>
+        <ThemeProvider theme={theme}>
+          <h3>Your offer N°{id + "'"}s history</h3>
+          {offers.map((offer, i) => (
+            <OfferLine
+              key={i}
+              idOffer={offer.idOffer}
+              price={offer.price}
+              date={offer.dateOffer}
+              isAccepted={offer.isAccepted}
+              user={offer.idUser}
+              counterOffer={offer.counterOffer}
+            />
+          ))}
+        </ThemeProvider>
+      </div>
+    </div>
+  )
+}
+
+const OfferLine = ({
+  date,
+  user,
+  price,
+  isAccepted,
+  idOffer,
+  counterOffer,
+}) => {
+  let status
+  if (isAccepted === '1') status = 'accepted-offer'
+  if (isAccepted === '0') status = 'no-response-offer'
+  if (isAccepted === '2') status = 'refused-offer'
+  if (isAccepted === '2' && !counterOffer) status = 'closed-offer'
+
+  return (
+    <div className={'offer-line'}>
+      <div className={'offer-line-inner ' + status}>
+        <span>Offer: {idOffer}</span>
+        <span>Proposed price: {price}</span>
+        <span>Date: {date}</span>
+      </div>
+      {user === 'Us' ? (
+        <div className="offer-btn">
+          <Button variant="contained" color="primary">
+            Accept
+          </Button>
+          <Button variant="contained" color="primary">
+            Counter Offer
+          </Button>
+          <Button variant="contained" color="primary">
+            Deny
+          </Button>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
+  )
+}
+
+OfferLine.propTypes = {
+  isAccepted: PropTypes.number,
+  counterOffer: PropTypes.number,
+  idOffer: PropTypes.number,
+  price: PropTypes.float,
+  date: PropTypes.string,
+  user: PropTypes.string,
 }

@@ -6,7 +6,7 @@ import { LoginContext } from 'authContext'
 import { ThemeProvider, Button } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
-import {theme} from '../theme'
+import { theme } from '../theme'
 
 const Menu = () => {
   const sorts = [
@@ -59,8 +59,9 @@ const Product = ({ updater }) => {
   }, [])
 
   const buyProduct = async (e) => {
+    console.log(e)
     await requester('http://localhost/php-back/Product/AddToCart', 'POST', {
-      id: e.target.id,
+      id: e,
     })
     updater()
   }
@@ -76,7 +77,9 @@ const Product = ({ updater }) => {
               alt={object.product_modelmodelName}
             />
             <div className="product-prices">
-              <span><del>{object.officialPrice}</del> €</span>
+              <span>
+                <del>{object.officialPrice}</del> €
+              </span>
               <span>{Math.round(object.officialPrice * 0.66)} €</span>
             </div>
           </div>
@@ -88,7 +91,11 @@ const Product = ({ updater }) => {
               </span>
             </div>
             <ThemeProvider theme={theme}>
-              <Button variant="contained" color="primary" id={object.idProduct} onClick={buyProduct}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={buyProduct.bind(this, object.idProduct)}
+              >
                 Buy
               </Button>
             </ThemeProvider>
