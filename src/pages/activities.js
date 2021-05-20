@@ -110,14 +110,6 @@ export const Activities = () => {
                     <span>Prix: {offer.price}€</span>
                     <span>{status}</span>
                     <span style={{ flex: '2' }}>{offer.dateOffer}</span>
-
-                    <div
-                      onClick={() => console.log('a')}
-                      id={offer.idProduct}
-                      style={{ marginLeft: '.5em', cursor: 'pointer' }}
-                    >
-                      X
-                    </div>
                   </div>
                   {newOffer ? (
                     <div>
@@ -145,18 +137,74 @@ export const ActivitiesById = () => {
 
   const [offers, setOffers] = useState([])
 
-  useEffect(async () => {
+  const getHistory = async () => {
     const resp = await requester(
-      'http://localhost/php-back/Offer/History?id=32'
+      'http://localhost/php-back/Offer/History?id=' + id
     )
     if (resp.errors) {
       console.log(resp.errors)
     } else {
       setOffers(resp)
     }
+  }
+
+  useEffect(() => {
+    getHistory()
   }, [])
 
-  console.log(offers)
+  const acceptOffer = async (offer) => {
+    await requester('http://localhost/php-back/Offer/Update', 'POST', {
+      id: offer.idOffer,
+      isAccepted: 1,
+    })
+    getHistory()
+  }
+
+  const denyOffer = async (offer) => {
+    await requester('http://localhost/php-back/Offer/Update', 'POST', {
+      id: offer.idOffer,
+      isAccepted: 2,
+    })
+    getHistory()
+  }
+
+  const counterOffer = async (newPrice, reason, offer) => {
+    const res = await requester(
+      'http://localhost/php-back/Offer/CounterOffer',
+      'POST',
+      {
+        id: offer.idOffer,
+        price: newPrice,
+        conditionOffer: reason,
+        idModel: offer.idModel,
+      }
+    )
+    if (!res.id) {
+      console.log(res)
+    } else {
+      getHistory()
+    }
+  }
+
+  const onClickHandler = (type, offer) => {
+    if (type === 'DENY') {
+      const accept = confirm(
+        'You want to deny our offer, if so, we will return you your product'
+      )
+      if (accept) denyOffer(offer)
+    }
+    if (type === 'ACCEPT') {
+      const accept = confirm('You want to accept our offer ?')
+      if (accept) acceptOffer(offer)
+    }
+    if (type === 'COUNTER') {
+      const newPrice = prompt('Enter yout new price')
+      if (newPrice === null) return
+      const reason = prompt('Enter the reason')
+      if (reason === null) return
+      counterOffer(newPrice, reason, offer)
+    }
+  }
 
   return (
     <div className="wrapper">
@@ -180,6 +228,7 @@ export const ActivitiesById = () => {
           <h3>Your offer N°{id + "'"}s history</h3>
           {offers.map((offer, i) => (
             <OfferLine
+              onClick={onClickHandler}
               key={i}
               idOffer={offer.idOffer}
               price={offer.price}
@@ -187,6 +236,7 @@ export const ActivitiesById = () => {
               isAccepted={offer.isAccepted}
               user={offer.idUser}
               counterOffer={offer.counterOffer}
+              offer={offer}
             />
           ))}
         </ThemeProvider>
@@ -202,7 +252,10 @@ const OfferLine = ({
   isAccepted,
   idOffer,
   counterOffer,
+  onClick,
+  offer,
 }) => {
+  console.log(user, isAccepted)
   let status
   if (isAccepted === '1') status = 'accepted-offer'
   if (isAccepted === '0') status = 'no-response-offer'
@@ -216,15 +269,33 @@ const OfferLine = ({
         <span>Proposed price: {price}</span>
         <span>Date: {date}</span>
       </div>
-      {user === 'Us' ? (
+      {user === 'Us' && isAccepted === '0' ? (
         <div className="offer-btn">
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              onClick('ACCEPT', offer)
+            }}
+          >
             Accept
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              onClick('COUNTER', offer)
+            }}
+          >
             Counter Offer
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              onClick('DENY', offer)
+            }}
+          >
             Deny
           </Button>
         </div>
@@ -242,4 +313,6 @@ OfferLine.propTypes = {
   price: PropTypes.float,
   date: PropTypes.string,
   user: PropTypes.string,
+  onClick: PropTypes.func,
+  offer: PropTypes.object,
 }
