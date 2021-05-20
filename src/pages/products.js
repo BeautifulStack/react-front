@@ -3,50 +3,63 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Logo } from 'utils/Logo'
 import { Link, useHistory } from 'react-router-dom'
 import { LoginContext } from 'authContext'
-import { ThemeProvider, Button } from '@material-ui/core'
+import { ThemeProvider, Button, Checkbox } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
 import {theme} from '../theme'
+
+const brands = new Set()
+const models = new Set()
+const categories = new Set()
 
 const Menu = () => {
   const sorts = [
     {
       name: 'Brand',
-      values: ['Apple', 'Samsung', 'Xiaomi'],
+      values: [...brands],
     },
     {
       name: 'Model',
-      values: ['Iphone XR', 'Samsung Galaxy S7', 'Xiaomi'],
+      values: [...models],
     },
+    {
+      name: 'Category',
+      values: [...categories],
+    }
   ]
 
   return (
-    <div className="menu">
-      {sorts.map((sort, i) => (
-        <div className="sort-section" key={i}>
-          <span className="category-name">{sort.name}</span>
-          <div className="category-values-list">
-            {sort.values.map((value, y) => (
-              <span key={y}>{value}</span>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
+      <div className="menu">
+        {sorts.map((sort, i) => (
+            <div className="sort-section" key={i}>
+              <span className="category-name">{sort.name}</span>
+              <div className="category-values-list">
+                {sort.values.map((value, y) => (
+                    <span key={y}>
+                      <Checkbox defaultChecked color="primary"/>
+                      {value}
+                    </span>
+                ))}
+              </div>
+            </div>
+        ))}
+      </div>
   )
 }
+
+//const updateFilter = (filterSet) => {
+//}
 
 const Product = ({ updater }) => {
   const context = useContext(LoginContext)
   const { requester } = context
 
   const [products, setProducts] = useState([])
+  //const [brands, setBrands] = useState(null)
+  //const [models, setModels] = useState(null)
 
   useEffect(async () => {
-    const modelProducts = await requester(
-      'http://localhost/php-back/Product/ReadAll',
-      'GET'
-    )
+    const modelProducts = await requester('http://localhost/php-back/Product/ReadAll', 'GET')
     if (modelProducts.errors) {
       console.error({
         message: modelProducts.errors[0],
@@ -56,6 +69,14 @@ const Product = ({ updater }) => {
     } else {
       setProducts(modelProducts)
     }
+
+    brands.clear()
+    for (const modelProductsKey in modelProducts) {
+      brands.add(modelProducts[modelProductsKey].brandName)
+      models.add(modelProducts[modelProductsKey].modelName)
+      categories.add(modelProducts[modelProductsKey].categoryName)
+    }
+
   }, [])
 
   const buyProduct = async (e) => {
@@ -66,51 +87,51 @@ const Product = ({ updater }) => {
   }
 
   return (
-    <div className="products">
-      {products.map((object, index) => (
-        <div key={index} className="product">
-          <div className="product-image">
-            <img
-              width="120"
-              src={'http://localhost/php-back/' + object.path}
-              alt={object.product_modelmodelName}
-            />
-            <div className="product-prices">
-              <span><del>{object.officialPrice}</del> €</span>
-              <span>{Math.round(object.officialPrice * 0.66)} €</span>
+      <div className="products">
+        {products.map((object, index) => (
+            <div key={index} className="product">
+              <div className="product-image">
+                <img
+                    width="120"
+                    src={'http://localhost/php-back/' + object.path}
+                    alt={object.product_modelmodelName}
+                />
+                <div className="product-prices">
+                  <span><del>{object.officialPrice}</del> €</span>
+                  <span>{Math.round(object.officialPrice * 0.66)} €</span>
+                </div>
+              </div>
+              <div className="product-buy">
+                <div className="product-info">
+                  <span>{object.brandName}</span>
+                  <span className="product-model">
+                    {object.product_modelmodelName}
+                  </span>
+                </div>
+                <ThemeProvider theme={theme}>
+                  <Button variant="contained" color="primary" id={object.idProduct} onClick={buyProduct}>
+                    Buy
+                  </Button>
+                </ThemeProvider>
+              </div>
             </div>
-          </div>
-          <div className="product-buy">
-            <div className="product-info">
-              <span>{object.brandName}</span>
-              <span className="product-model">
-                {object.product_modelmodelName}
-              </span>
-            </div>
-            <ThemeProvider theme={theme}>
-              <Button variant="contained" color="primary" id={object.idProduct} onClick={buyProduct}>
-                Buy
-              </Button>
-            </ThemeProvider>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
   )
 }
 
 const Cart = ({ products }) => {
   const history = useHistory()
   return (
-    <div
-      style={{ cursor: 'pointer' }}
-      onClick={() => {
+      <div
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
         history.push('/account/cart')
-      }}
-      className="cart-logo"
-    >
-      Cart: {products}
-    </div>
+          }}
+          className="cart-logo"
+      >
+        Cart: {products}
+      </div>
   )
 }
 
@@ -138,34 +159,34 @@ export const Products = () => {
   }, [])
 
   return (
-    <div className="wrapper">
-      <header className="mainPage">
-        <Logo />
-        <Link to="/products" className="cta-btn">
-          Home
-        </Link>
-        <Link to="/seller/sell" className="cta-btn simple">
-          Sell a Thing
-        </Link>
-        <Link to="/account/activities" className="cta-btn simple">
-          My Activities
-        </Link>
-        {context.logged ? (
-          <Link to="/user/account" className="cta-btn simple">
-            My accounts
+      <div className="wrapper">
+        <header className="mainPage">
+          <Logo />
+          <Link to="/products" className="cta-btn">
+            Home
           </Link>
-        ) : (
-          <Link to="/login" className="cta-btn">
-            Sign In
+          <Link to="/seller/sell" className="cta-btn simple">
+            Sell a Thing
           </Link>
-        )}
-      </header>
-      <div className="menu-all">
-        <Menu />
-        <Product updater={updateCart} />
-        <Cart products={productCart} />
+          <Link to="/account/activities" className="cta-btn simple">
+            My Activities
+          </Link>
+          {context.logged ? (
+              <Link to="/user/account" className="cta-btn simple">
+                My accounts
+              </Link>
+          ) : (
+              <Link to="/login" className="cta-btn">
+                Sign In
+              </Link>
+          )}
+        </header>
+        <div className="menu-all">
+          <Menu brands={brands} />
+          <Product updater={updateCart} />
+          <Cart products={productCart} />
+        </div>
       </div>
-    </div>
   )
 }
 
@@ -174,5 +195,5 @@ Cart.propTypes = {
 }
 
 Product.propTypes = {
-  updater: PropTypes.function,
+  updater: PropTypes.func,
 }

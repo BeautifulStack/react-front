@@ -5,7 +5,6 @@ import { Link, useHistory } from 'react-router-dom'
 import {
   TextField,
   ThemeProvider,
-  createMuiTheme,
   Button,
   Select,
   InputLabel,
@@ -191,7 +190,7 @@ export const Sell = () => {
                   <MenuItem value={1}>I have charger</MenuItem>
                   <MenuItem value={2}>I have Box and Charger</MenuItem>
                   <MenuItem value={3}>
-                    {"I don't have box and charger"}
+                    {'I don\'t have box and charger'}
                   </MenuItem>
                 </Select>
               </span>
