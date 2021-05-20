@@ -5,8 +5,11 @@ import { Link, useHistory, useParams } from 'react-router-dom'
 import { theme } from 'theme'
 import { ThemeProvider, Button } from '@material-ui/core'
 import { LoginContext } from 'authContext'
+import { useTranslation } from 'react-i18next'
 
 export const Activities = () => {
+  const { t } = useTranslation('common')
+
   const context = useContext(LoginContext)
   const [offer, setOffer] = useState([])
   const [models, setModels] = useState([])
@@ -55,19 +58,19 @@ export const Activities = () => {
           Home
         </Link>
         <Link to="/seller/sell" className="cta-btn simple">
-          Sell a Thing
+          {t('navbar.sell')}
         </Link>
-        <Link to="/account/activities" className="cta-btn ">
-          My Activities
+        <Link to="/account/activities" className="cta-btn">
+          {t('navbar.activities')}
         </Link>
         <Link to="/user/account" className="cta-btn simple">
-          My accounts
+          {t('navbar.account')}
         </Link>
       </header>
       <div className="wrapper-middle" style={{ width: '55%' }}>
         <ThemeProvider theme={theme}>
-          <h3>Activities</h3>
-          <span>Here are all you past activities</span>
+          <h3>{t('navbar.activities')}</h3>
+          <span>{t('offer.list')}</span>
           <div className="cart">
             {offer.map((offer, i) => {
               let nameModel = 'a'
@@ -76,11 +79,11 @@ export const Activities = () => {
               })
               nameModel = model ? model.modelName : nameModel
               let status = ''
-              if (offer.isAccepted === '1') status = 'Accepted'
-              if (offer.isAccepted === '0') status = 'No Response'
-              if (offer.isAccepted === '2') status = 'Refused'
+              if (offer.isAccepted === '1') status = t('accept.accept')
+              if (offer.isAccepted === '0') status = t('accept.nores')
+              if (offer.isAccepted === '2') status = t('accept.refused')
               if (offer.isAccepted === '2' && !offer.counterOffer)
-                status = 'Closed'
+                status = t('accept.closed')
 
               let newOffer = false
               if (offer.counterOffer) {
@@ -90,7 +93,7 @@ export const Activities = () => {
                   }
 
                   if (suboffer.isAccepted === '2' && !suboffer.counterOffer)
-                    status = 'Closed'
+                    status = t('accept.closed')
                 })
               }
 
@@ -107,14 +110,16 @@ export const Activities = () => {
                     <span>{offer.idOffer}</span>
                     <span>{nameModel}</span>
                     <span>{offer.conditionOffer}</span>
-                    <span>Prix: {offer.price}€</span>
+                    <span>
+                      {t('price')}: {offer.price}€
+                    </span>
                     <span>{status}</span>
                     <span style={{ flex: '2' }}>{offer.dateOffer}</span>
                   </div>
                   {newOffer ? (
                     <div>
                       <span style={{ color: '#E6BC17' }}>
-                        A New Offer is available
+                        {t('offer.newoffer')}
                       </span>
                     </div>
                   ) : (
@@ -131,6 +136,7 @@ export const Activities = () => {
 }
 
 export const ActivitiesById = () => {
+  const { t } = useTranslation('common')
   const context = useContext(LoginContext)
   const { requester } = context
   const { id } = useParams()
@@ -214,13 +220,13 @@ export const ActivitiesById = () => {
           Home
         </Link>
         <Link to="/seller/sell" className="cta-btn simple">
-          Sell a Thing
+          {t('navbar.sell')}
         </Link>
-        <Link to="/account/activities" className="cta-btn ">
-          My Activities
+        <Link to="/account/activities" className="cta-btn">
+          {t('navbar.activities')}
         </Link>
         <Link to="/user/account" className="cta-btn simple">
-          My accounts
+          {t('navbar.account')}
         </Link>
       </header>
       <div className="wrapper-middle" style={{ width: '55%' }}>
@@ -255,6 +261,7 @@ const OfferLine = ({
   onClick,
   offer,
 }) => {
+  const { t } = useTranslation('common')
   console.log(user, isAccepted)
   let status
   if (isAccepted === '1') status = 'accepted-offer'
@@ -265,7 +272,9 @@ const OfferLine = ({
   return (
     <div className={'offer-line'}>
       <div className={'offer-line-inner ' + status}>
-        <span>Offer: {idOffer}</span>
+        <span>
+          {t('offer.offer')}: {idOffer}
+        </span>
         <span>Proposed price: {price}</span>
         <span>Date: {date}</span>
       </div>

@@ -1,0 +1,67 @@
+{
+  "navbar": {
+    "sell": "Vendez votre produit",
+    "activities": "Mes activités",
+    "account": "Mom compte",
+    "signin": "Connexion",
+    "logout": "Deconnexion",
+    "goback": "Allez vers le BackOffice",
+    "gosite": "Revenez sur le site"
+  },
+
+  "home": {
+    "title": "Bienvenue sur FairRepack",
+    "par1": "Bonjour et bienvenue chez FairRepack. Nous nous occupons de remettre au neuf vos appareils. Nous vous invitons donc à achter nos produits reconditionnées ou bien vendre les produits que vous n'utilisez plus.\n\nEnvoyer un message dans PA ",
+    "par2": "Bonjour et bienvenue chez FairRepack. Nous nous occupons de remettre au neuf vos appareils. Nous vous invitons donc à achter nos produits reconditionnées ou bien vendre les produits que vous n'utilisez plus.\n\nEnvoyer un message dans PA "
+  },
+  "button": {
+    "products": "Découvrez nos produits "
+  },
+  "proposition": {
+    "noestimation": "Afin d'estimer votre produit,  veuillez complèter les champs",
+    "estimation": "Pour ce produit, nous pouvons vous proposez",
+    "propose": "Proposez votre produit"
+  },
+  "offer": {
+    "offer": "Offre",
+    "newoffer": "Une nouvelle offre est disponible",
+    "list": "Veuillez trouver toutes vos dernières activité"
+  },
+  "state": {
+    "good": "Bon état",
+    "used": "Usé",
+    "usedmore": "Usé par le temps",
+    "new": "Nouveauté"
+  },
+  "accept": {
+    "accept": "Accepté",
+    "nores": "Aucune réponse",
+    "refused": "Refusé",
+    "closed": "Fermé"
+  },
+  "account": {
+    "account": "Votre compte",
+    "hello": "Bonjour",
+    "infos": "Veuillez trouver toutes les informations vous concernant",
+    "phone": "Numéro de téléphone",
+    "balance": "Le solde de vos GreenCoins est de {{coins}} pièces"
+  },
+  "checkout": {
+    "tobuy": " Vous allez acheter les articles suivants",
+    "checkout": "Vérifier"
+  },
+
+  "language": "Langue",
+
+  "delivery": "Adresse de livraison",
+  "from": "De",
+  "condition": "Etat",
+  "tellusmore": "Détaillez nous le produit ",
+  "buy": "Acheter",
+  "pay": "Payer",
+  "cart": "Panier",
+  "Brand": "Marque",
+  "Model": "Modèle",
+  "Category": "Catégorie",
+  "price": "prix"
+}

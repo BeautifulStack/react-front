@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import { LoginContext } from 'authContext'
 import { theme } from 'theme'
+import { useTranslation } from 'react-i18next'
 
 export const Sell = () => {
   const history = useHistory()
@@ -106,6 +107,8 @@ export const Sell = () => {
     }
   }
 
+  const { t } = useTranslation('common')
+
   return (
     <div className="wrapper">
       <header className="mainPage">
@@ -114,20 +117,20 @@ export const Sell = () => {
           Home
         </Link>
         <Link to="/seller/sell" className="cta-btn">
-          Sell a Thing
+          {t('navbar.sell')}
         </Link>
         <Link to="/account/activities" className="cta-btn simple">
-          My Activities
+          {t('navbar.activities')}
         </Link>
         <Link to="/user/account" className="cta-btn simple">
-          My accounts
+          {t('navbar.account')}
         </Link>
       </header>
       <div className="sell-all">
         <ThemeProvider theme={theme}>
           <div className="loginForm">
             <span className="textWrapper">
-              <InputLabel id="brand-selector">Brand</InputLabel>
+              <InputLabel id="brand-selector">{t('Brand')}</InputLabel>
               <Select
                 labelId="brand-selector"
                 value={brand}
@@ -142,7 +145,7 @@ export const Sell = () => {
             </span>
 
             <span className="textWrapper">
-              <InputLabel id="model-selector">Model</InputLabel>
+              <InputLabel id="model-selector">{t('Model')}</InputLabel>
               <Select
                 labelId="model-selector"
                 value={model}
@@ -190,7 +193,7 @@ export const Sell = () => {
                   <MenuItem value={1}>I have charger</MenuItem>
                   <MenuItem value={2}>I have Box and Charger</MenuItem>
                   <MenuItem value={3}>
-                    {'I don\'t have box and charger'}
+                    {"I don't have box and charger"}
                   </MenuItem>
                 </Select>
               </span>
@@ -207,22 +210,22 @@ export const Sell = () => {
                 id="outlined-required"
                 variant="outlined"
                 type="text"
-                label="Tell us more about the product"
+                label={t('tellusmore')}
               />
             </span>
             <span className="priceDiv">
               {proposedPrice !== -1 ? (
                 <>
-                  For this product, we can propose you:{' '}
+                  {t('proposition.estimation')}
                   <strong>{proposedPrice}</strong>!
                 </>
               ) : (
-                <>To Estimate your product, please fill all the fields</>
+                <>{t('proposition.noestimation')}</>
               )}
             </span>
             <span className="submitBtn">
               <Button variant="contained" color="primary" onClick={createOffer}>
-                Propose Product
+                {t('proposition.propose')}
               </Button>
             </span>
           </div>

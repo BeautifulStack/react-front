@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
 //import { Button, ThemeProvider } from '@material-ui/core'
 //import { theme } from 'theme'
-import {Elements} from '@stripe/react-stripe-js'
-import {loadStripe} from '@stripe/stripe-js'
-import {PaymentForm} from 'pages/PaymentForm'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import { PaymentForm } from 'pages/PaymentForm'
 import Fade from 'react-reveal/Fade'
+import { useTranslation } from 'react-i18next'
 
 export const Payment = () => {
   const context = useContext(LoginContext)
   const [price, setPrice] = useState(0)
   const { requester } = context
-  const stripePromise = loadStripe('pk_test_51IoECAGhzmo20Me7YY9TfXe3cWzECpBBD1hfobRydR8DnnYdWGo50Rs2UMm9Mxbi9fYa339vatoeD28Gr5lcZLOV00lP9Otpka')
+  const stripePromise = loadStripe(
+    'pk_test_51IoECAGhzmo20Me7YY9TfXe3cWzECpBBD1hfobRydR8DnnYdWGo50Rs2UMm9Mxbi9fYa339vatoeD28Gr5lcZLOV00lP9Otpka'
+  )
 
   const getPrice = async () => {
     const res = await requester('http://localhost/php-back/Cart/Price', 'GET')
@@ -32,6 +35,8 @@ export const Payment = () => {
     getPrice()
   }, [])
 
+  const { t } = useTranslation('common')
+
   return (
     <div className="wrapper">
       <header className="mainPage">
@@ -39,17 +44,17 @@ export const Payment = () => {
         <span className="siteName">FairRepack</span>
         {context.logged ? (
           <button className="cta-btn" onClick={() => context.logout()}>
-            Logout
+            {t('navbar.logout')}
           </button>
         ) : (
           <Link to="/login" className="cta-btn">
-            Sign In
+            {t('navbar.signin')}
           </Link>
         )}
       </header>
       <div className="wrapper-middle">
         {price === 0 ? (
-            <h1>Empty cart...</h1>
+          <h1>Empty cart...</h1>
         ) : (
           <Fade bottom>
             <h1>Total : {price} €</h1>
@@ -59,8 +64,7 @@ export const Payment = () => {
               </Elements>
             </div>
           </Fade>
-        )
-        }
+        )}
       </div>
     </div>
   )
