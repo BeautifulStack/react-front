@@ -5,9 +5,24 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { I18nextProvider } from 'react-i18next'
 import i18next from 'i18next'
+import common_en from './translation/en/common.json'
+import common_fr from './translation/fr/common.json'
 
 i18next.init({
-  interpolation: { escapeValue: false }, // React already does escaping
+  interpolation: {
+    escapeValue: false,
+  },
+  lng: 'en',
+  resources: {
+    en: {
+      common: common_en,
+    },
+    fr: {
+      common: common_fr,
+    },
+  },
+
+  // React already does escaping
 })
 
 ReactDOM.render(

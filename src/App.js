@@ -15,6 +15,7 @@ import { Activities, ActivitiesById } from './pages/activities'
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
 import { Payment } from './pages/Payment'
+import { LanguageModal } from './utils/languageModal'
 
 function App() {
   const [logged, setLogged] = useState(false)
@@ -41,6 +42,7 @@ function App() {
       <LoginContext.Provider value={context}>
         <div className="App">
           <BrowserRouter>
+            <LanguageModal />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />

@@ -1,12 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
-import {useHistory} from 'react-router'
+import { useHistory } from 'react-router'
 import { Logo } from 'utils/Logo'
 import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
 import { Button, ThemeProvider } from '@material-ui/core'
 import { theme } from 'theme'
+import { useTranslation } from 'react-i18next'
 
 export const Cart = () => {
+  const { t } = useTranslation('common')
+
   const context = useContext(LoginContext)
   const { requester } = context
   const [products, setProducts] = useState([])
@@ -62,29 +65,38 @@ export const Cart = () => {
       </header>
       <div className="show-cart">
         <div className="wrapper-middle">
-          <h3>Cart</h3>
-          <span>You will buy the following items</span>
+          <h3>{t('checkout.cart')}</h3>
+          <span>{t('checkout.tobuy')}</span>
           <div className="cart">
             {products.map((product, i) => {
               return (
-                  <div key={i} className="cart-object">
-                    <span>{product.product_modelmodelName}</span>
-                    <span>Condition: {product.conditionProduct}</span>
-                    <span>From: {product.warehouselocation}</span>
-                    <div
-                        onClick={removeArticle}
-                        id={product.idProduct}
-                        style={{ marginLeft: '.5em', cursor: 'pointer' }}
-                    >
-                      X
-                    </div>
+                <div key={i} className="cart-object">
+                  <span>{product.product_modelmodelName}</span>
+                  <span>
+                    {t('condition')}: {product.conditionProduct}
+                  </span>
+                  <span>
+                    {t('from')}: {product.warehouselocation}
+                  </span>
+                  <div
+                    onClick={removeArticle}
+                    id={product.idProduct}
+                    style={{ marginLeft: '.5em', cursor: 'pointer' }}
+                  >
+                    X
                   </div>
+                </div>
               )
             })}
             <ThemeProvider theme={theme}>
               <div style={{ alignSelf: 'flex-end', marginTop: '1em' }}>
-                <Button variant="contained" color="primary" role="link" onClick={goCheckout}>
-                  Checkout
+                <Button
+                  variant="contained"
+                  color="primary"
+                  role="link"
+                  onClick={goCheckout}
+                >
+                  {t('checkout.checkout')}
                 </Button>
               </div>
             </ThemeProvider>

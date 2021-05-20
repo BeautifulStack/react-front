@@ -1,8 +1,65 @@
 {
+  "navbar": {
+    "sell": "Sell a thing",
+    "activities": "My Activities",
+    "account": "My account",
+    "signin": "Sign In",
+    "logout": "Log out",
+    "goback": "Go to Backoffice",
+    "gosite": "Back to Site"
+  },
+
   "home": {
-    "title": "Welcome to FairRepack"
+    "title": "Welcome to FairRepack",
+    "par1": "Welcome to FairRepack. We take your old products, and we repair them. We invite you to send use your old products, or buy our refurbished products",
+    "par2": "Welcome to FairRepack. We take your old products, and we repair them. We invite you to send use your old products, or buy our refurbished products"
   },
   "button": {
     "products": "Go to Products"
-  }
+  },
+  "proposition": {
+    "noestimation": "To Estimate your product, please fill all the fields",
+    "estimation": "For this product, we can propose you:",
+    "propose": "Propose Product"
+  },
+  "offer": {
+    "offer": "Offer",
+    "newoffer": "A New Offer is available",
+    "list": "Here are all you past activities"
+  },
+  "state": {
+    "good": "Good",
+    "used": "Used",
+    "usedmore": "Used by time",
+    "new": "Brand New"
+  },
+  "accept": {
+    "accept": "Accepted",
+    "nores": "No response",
+    "refused": "Refused",
+    "closed": "Closed"
+  },
+  "account": {
+    "account": "Your Account",
+    "hello": "Hello",
+    "infos": "Here are the informations we have on you",
+    "phone": "Phone",
+    "balance": "Your GreenCoins Balance is of {{coins}} coins"
+  },
+  "checkout": {
+    "tobuy": "You will buy the following items",
+    "checkout": "Checkout"
+  },
+  "delivery": "Delivery address",
+  "from": "From",
+  "condition": "State",
+  "tellusmore": "Tell us more about the product",
+  "buy": "buy",
+  "pay": "Pay",
+  "cart": "cart",
+  "Brand": "Brand",
+  "Model": "Model",
+  "Category": "Category",
+  "price": "price",
+  "language": "Language"
 }

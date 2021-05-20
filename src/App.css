@@ -321,3 +321,28 @@ background-color: #E6BC17;
   display: flex;
   justify-content: space-between
 }
+
+.modalLanguage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: #E6BC17;
+  bottom: 1em;
+  right: 1em;
+  margin: 2em;
+  padding: 1em;
+}
+
+.modalLanguage * {
+  font-size: 24px;
+}
+
+.modalLanguage button {
+  border-radius: 5px;
+  background-color: black;
+  border: none;
+  padding: .2em .5em;
+  margin: .4em 1em;
+}

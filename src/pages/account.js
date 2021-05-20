@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { LoginContext } from 'authContext'
 import { Link } from 'react-router-dom'
 import user from 'images/user-white.svg'
+import { useTranslation } from 'react-i18next'
 
 export const Account = () => {
   const context = useContext(LoginContext)
@@ -18,19 +19,21 @@ export const Account = () => {
     }
   }, [])
 
+  const { t } = useTranslation('common')
+
   return (
     <div className="wrapper">
       <div className="center middle">
         <div className="tiny-nav-bar">
           <Link to="/products" className="cta-btn">
-            Back to Site
+            {t('navbar.gosite')}
           </Link>
           <button className="cta-btn" onClick={() => context.logout()}>
-            Logout
+            {t('navbar.logout')}
           </button>
           {infos.isAdmin !== '0' ? (
             <Link to="/backoffice" className="cta-btn">
-              Go to Backoffice
+              {t('navbar.goback')}
             </Link>
           ) : (
             <></>
@@ -43,9 +46,11 @@ export const Account = () => {
           width="50"
           height=""
         />
-        <h1>Your Account</h1>
-        <h3>Hello {infos.firstName}</h3>
-        <span>Here are the informations we have on you: </span>
+        <h1>{t('account.account')}</h1>
+        <h3>
+          {t('account.hello')} {infos.firstName}
+        </h3>
+        <span>{t('account.infos')}: </span>
         <div className="column">
           {infos.isValidated ? (
             <span className="important">You account is Not Validated</span>
@@ -53,10 +58,12 @@ export const Account = () => {
             <></>
           )}
           <span>Email: {infos.email}</span>
-          <span>Phone Number: {infos.phoneNumber}</span>
+          <span>
+            {t('account.phone')}: {infos.phoneNumber}
+          </span>
           <span>You are {!infos.isAdmin ? 'not' : ''} an admin</span>
           <span>
-            You GreenCoins balance is of {infos.greenCoinsBalance} coins
+            {t('account.balance', { coins: infos.greenCoinsBalance })}
           </span>
           <span>
             You are {!infos.isAdmin ? 'not' : ''} an admin and register since{' '}

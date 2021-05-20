@@ -25,25 +25,15 @@ export const Home = () => {
       </header>
       <div className="divAnim"></div>
       <div className="Left paragraphe">
-        Go to{' '}
         <Link className="link" to="/products">
-          Products
+          {t('button.products')}
         </Link>
       </div>
       <div className="Left paragraphe">
-        <p>
-          {t(
-            "Bonjour et bienvenu chez FairRepack. Nous nous occupons de remettre au neuf vos appareil. Nous vous invitons donc à achter nos produits reconditionnées ou bien vendre les produits que vous n'utilisez plus."
-          )}
-        </p>
+        <p>{t('home.par1')}</p>
       </div>
       <div className="Right paragraphe">
-        <p>
-          ontrary to popular belief, Lorem Ipsum is not simply .33 of de Finibus
-          Bonorum et Malorum (The.33 of de Finibus Bonorum et Malorum (Therandom
-          text. It has roots in a piece of classical Latin literature from 45
-          BC, making it over 2t amet.., comes from a line in section 1.10.32.
-        </p>
+        <p>{t('home.par2')}</p>
       </div>
     </div>
   )

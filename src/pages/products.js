@@ -7,23 +7,26 @@ import { ThemeProvider, Button, Checkbox } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
 import { theme } from '../theme'
+import { useTranslation } from 'react-i18next'
 
 const brands = new Set()
 const models = new Set()
 const categories = new Set()
 
 const Menu = () => {
+  const { t } = useTranslation('common')
+
   const sorts = [
     {
-      name: 'Brand',
+      name: t('Brand'),
       values: [...brands],
     },
     {
-      name: 'Model',
+      name: t('Model'),
       values: [...models],
     },
     {
-      name: 'Category',
+      name: t('Category'),
       values: [...categories],
     },
   ]
@@ -51,6 +54,7 @@ const Menu = () => {
 //}
 
 const Product = ({ updater }) => {
+  const { t } = useTranslation('common')
   const context = useContext(LoginContext)
   const { requester } = context
 
@@ -119,7 +123,7 @@ const Product = ({ updater }) => {
                 color="primary"
                 onClick={buyProduct.bind(this, object.idProduct)}
               >
-                Buy
+                {t('buy')}
               </Button>
             </ThemeProvider>
           </div>
@@ -145,6 +149,7 @@ const Cart = ({ products }) => {
 }
 
 export const Products = () => {
+  const { t } = useTranslation('common')
   const context = useContext(LoginContext)
   const { requester } = context
 
@@ -175,18 +180,18 @@ export const Products = () => {
           Home
         </Link>
         <Link to="/seller/sell" className="cta-btn simple">
-          Sell a Thing
+          {t('navbar.sell')}
         </Link>
         <Link to="/account/activities" className="cta-btn simple">
-          My Activities
+          {t('navbar.activities')}
         </Link>
         {context.logged ? (
           <Link to="/user/account" className="cta-btn simple">
-            My accounts
+            {t('navbar.account')}
           </Link>
         ) : (
           <Link to="/login" className="cta-btn">
-            Sign In
+            {t('navbar.signin')}
           </Link>
         )}
       </header>
