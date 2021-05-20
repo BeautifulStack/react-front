@@ -3,8 +3,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Logo } from 'utils/Logo'
 import { Link, useHistory } from 'react-router-dom'
 import { LoginContext } from 'authContext'
+import { ThemeProvider, Button } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
+import {theme} from '../theme'
 
 const Menu = () => {
   const sorts = [
@@ -74,8 +76,8 @@ const Product = ({ updater }) => {
               alt={object.product_modelmodelName}
             />
             <div className="product-prices">
-              <span>{object.officialPrice}</span>
-              <span>{Math.round(object.officialPrice * 0.66)}</span>
+              <span><del>{object.officialPrice}</del> €</span>
+              <span>{Math.round(object.officialPrice * 0.66)} €</span>
             </div>
           </div>
           <div className="product-buy">
@@ -85,13 +87,11 @@ const Product = ({ updater }) => {
                 {object.product_modelmodelName}
               </span>
             </div>
-            <button
-              className="cta-btn"
-              id={object.idProduct}
-              onClick={buyProduct}
-            >
-              Buy
-            </button>
+            <ThemeProvider theme={theme}>
+              <Button variant="contained" color="primary" id={object.idProduct} onClick={buyProduct}>
+                Buy
+              </Button>
+            </ThemeProvider>
           </div>
         </div>
       ))}
