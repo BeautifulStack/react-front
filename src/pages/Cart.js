@@ -55,7 +55,7 @@ export const Cart = () => {
         <span className="siteName">FairRepack</span>
         {context.logged ? (
           <button className="cta-btn" onClick={() => context.logout()}>
-            Logout
+            {t('navbar.logout')}
           </button>
         ) : (
           <Link to="/login" className="cta-btn">

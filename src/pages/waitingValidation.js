@@ -4,9 +4,12 @@ import { theme } from './../theme'
 import { Link } from 'react-router-dom'
 import { LoginContext } from 'authContext'
 import { TextField, ThemeProvider, Button } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 export const Validation = () => {
   const context = useContext(LoginContext)
+
+  const { t } = useTranslation('common')
 
   return (
     <div className="wrapper">
@@ -15,11 +18,11 @@ export const Validation = () => {
         <span className="siteName">FairRepack</span>
         {context.logged ? (
           <button className="cta-btn" onClick={() => context.logout()}>
-            Logout
+            {t('navbar.logout')}
           </button>
         ) : (
           <Link to="/login" className="cta-btn">
-            Sign In
+            {t('navbar.signin')}
           </Link>
         )}
       </header>

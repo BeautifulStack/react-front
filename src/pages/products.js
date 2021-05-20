@@ -134,6 +134,7 @@ const Product = ({ updater }) => {
 }
 
 const Cart = ({ products }) => {
+  const { t } = useTranslation('common')
   const history = useHistory()
   return (
     <div
@@ -143,7 +144,7 @@ const Cart = ({ products }) => {
       }}
       className="cart-logo"
     >
-      Cart: {products}
+      {t('cart')}: {products}
     </div>
   )
 }
