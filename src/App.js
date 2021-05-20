@@ -11,10 +11,10 @@ import { Sell } from './pages/seller/sell'
 import { Account } from './pages/account'
 import { Validation } from './pages/waitingValidation'
 import { Cart } from './pages/Cart'
-import { Activities } from './pages/activities'
+import { Activities, ActivitiesById } from './pages/activities'
 import { LoginContext } from './authContext'
 import { requester, logout } from 'utils/requester'
-import {Payment} from './pages/Payment'
+import { Payment } from './pages/Payment'
 
 function App() {
   const [logged, setLogged] = useState(false)
@@ -56,6 +56,12 @@ function App() {
                   exact
                   path="/account/activities"
                   component={Activities}
+                />
+
+                <Route
+                  exact
+                  path="/account/activities/offer/:id"
+                  component={ActivitiesById}
                 />
 
                 <Route exact path="/account/cart" component={Cart} />

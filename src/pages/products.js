@@ -6,7 +6,7 @@ import { LoginContext } from 'authContext'
 import { ThemeProvider, Button, Checkbox } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
-import {theme} from '../theme'
+import { theme } from '../theme'
 
 const brands = new Set()
 const models = new Set()
@@ -25,25 +25,25 @@ const Menu = () => {
     {
       name: 'Category',
       values: [...categories],
-    }
+    },
   ]
 
   return (
-      <div className="menu">
-        {sorts.map((sort, i) => (
-            <div className="sort-section" key={i}>
-              <span className="category-name">{sort.name}</span>
-              <div className="category-values-list">
-                {sort.values.map((value, y) => (
-                    <span key={y}>
-                      <Checkbox defaultChecked color="primary"/>
-                      {value}
-                    </span>
-                ))}
-              </div>
-            </div>
-        ))}
-      </div>
+    <div className="menu">
+      {sorts.map((sort, i) => (
+        <div className="sort-section" key={i}>
+          <span className="category-name">{sort.name}</span>
+          <div className="category-values-list">
+            {sort.values.map((value, y) => (
+              <span key={y}>
+                <Checkbox defaultChecked color="primary" />
+                {value}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -59,7 +59,10 @@ const Product = ({ updater }) => {
   //const [models, setModels] = useState(null)
 
   useEffect(async () => {
-    const modelProducts = await requester('http://localhost/php-back/Product/ReadAll', 'GET')
+    const modelProducts = await requester(
+      'http://localhost/php-back/Product/ReadAll',
+      'GET'
+    )
     if (modelProducts.errors) {
       console.error({
         message: modelProducts.errors[0],
@@ -76,62 +79,68 @@ const Product = ({ updater }) => {
       models.add(modelProducts[modelProductsKey].modelName)
       categories.add(modelProducts[modelProductsKey].categoryName)
     }
-
   }, [])
 
   const buyProduct = async (e) => {
+    console.log(e)
     await requester('http://localhost/php-back/Product/AddToCart', 'POST', {
-      id: e.target.id,
+      id: e,
     })
     updater()
   }
 
   return (
-      <div className="products">
-        {products.map((object, index) => (
-            <div key={index} className="product">
-              <div className="product-image">
-                <img
-                    width="120"
-                    src={'http://localhost/php-back/' + object.path}
-                    alt={object.product_modelmodelName}
-                />
-                <div className="product-prices">
-                  <span><del>{object.officialPrice}</del> €</span>
-                  <span>{Math.round(object.officialPrice * 0.66)} €</span>
-                </div>
-              </div>
-              <div className="product-buy">
-                <div className="product-info">
-                  <span>{object.brandName}</span>
-                  <span className="product-model">
-                    {object.product_modelmodelName}
-                  </span>
-                </div>
-                <ThemeProvider theme={theme}>
-                  <Button variant="contained" color="primary" id={object.idProduct} onClick={buyProduct}>
-                    Buy
-                  </Button>
-                </ThemeProvider>
-              </div>
+    <div className="products">
+      {products.map((object, index) => (
+        <div key={index} className="product">
+          <div className="product-image">
+            <img
+              width="120"
+              src={'http://localhost/php-back/' + object.path}
+              alt={object.product_modelmodelName}
+            />
+            <div className="product-prices">
+              <span>
+                <del>{object.officialPrice}</del> €
+              </span>
+              <span>{Math.round(object.officialPrice * 0.66)} €</span>
             </div>
-        ))}
-      </div>
+          </div>
+          <div className="product-buy">
+            <div className="product-info">
+              <span>{object.brandName}</span>
+              <span className="product-model">
+                {object.product_modelmodelName}
+              </span>
+            </div>
+            <ThemeProvider theme={theme}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={buyProduct.bind(this, object.idProduct)}
+              >
+                Buy
+              </Button>
+            </ThemeProvider>
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
 const Cart = ({ products }) => {
   const history = useHistory()
   return (
-      <div
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
+    <div
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
         history.push('/account/cart')
-          }}
-          className="cart-logo"
-      >
-        Cart: {products}
-      </div>
+      }}
+      className="cart-logo"
+    >
+      Cart: {products}
+    </div>
   )
 }
 
@@ -159,34 +168,34 @@ export const Products = () => {
   }, [])
 
   return (
-      <div className="wrapper">
-        <header className="mainPage">
-          <Logo />
-          <Link to="/products" className="cta-btn">
-            Home
+    <div className="wrapper">
+      <header className="mainPage">
+        <Logo />
+        <Link to="/products" className="cta-btn">
+          Home
+        </Link>
+        <Link to="/seller/sell" className="cta-btn simple">
+          Sell a Thing
+        </Link>
+        <Link to="/account/activities" className="cta-btn simple">
+          My Activities
+        </Link>
+        {context.logged ? (
+          <Link to="/user/account" className="cta-btn simple">
+            My accounts
           </Link>
-          <Link to="/seller/sell" className="cta-btn simple">
-            Sell a Thing
+        ) : (
+          <Link to="/login" className="cta-btn">
+            Sign In
           </Link>
-          <Link to="/account/activities" className="cta-btn simple">
-            My Activities
-          </Link>
-          {context.logged ? (
-              <Link to="/user/account" className="cta-btn simple">
-                My accounts
-              </Link>
-          ) : (
-              <Link to="/login" className="cta-btn">
-                Sign In
-              </Link>
-          )}
-        </header>
-        <div className="menu-all">
-          <Menu brands={brands} />
-          <Product updater={updateCart} />
-          <Cart products={productCart} />
-        </div>
+        )}
+      </header>
+      <div className="menu-all">
+        <Menu brands={brands} />
+        <Product updater={updateCart} />
+        <Cart products={productCart} />
       </div>
+    </div>
   )
 }
 
