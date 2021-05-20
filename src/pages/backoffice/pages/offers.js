@@ -44,12 +44,17 @@ export const Offers = () => {
       changeModal({ message: offers.errors[0], time: 3000, type: 'failed' })
     } else {
       const { content } = offers
-      content.forEach(
-        (con) =>
-          (con['isAccepted'] =
-            con['isAccepted'] === '1' ? 'Accepted' : 'Not Accepted')
+      content.forEach((con) => {
+        if (con.isAccepted === '1') con.isAccepted = 'Accepted'
+        if (con.isAccepted === '0') con.isAccepted = 'No Response'
+        if (con.isAccepted === '2') con.isAccepted = 'Refused'
+        if (con.isAccepted === '2' && !con.counterOffer)
+          con.isAccepted = 'Closed'
+      })
+      const filteredOffers = content.filter(
+        (offer) => offer.isAccepted !== 'Refused'
       )
-      setOffers(content)
+      setOffers(filteredOffers)
     }
   }
 
@@ -61,6 +66,14 @@ export const Offers = () => {
     await requester('http://localhost/php-back/Offer/Update', 'POST', {
       id: selectedOffer,
       isAccepted: 1,
+    })
+    updateOffer()
+  }
+
+  const denyOffer = async () => {
+    await requester('http://localhost/php-back/Offer/Update', 'POST', {
+      id: selectedOffer,
+      isAccepted: 2,
     })
     updateOffer()
   }
@@ -95,6 +108,7 @@ export const Offers = () => {
   }
 
   console.log(offers)
+  // const NewOffers = offers.filter((offer) => offer.idUser == 'You')
 
   return (
     <div className="backoffice-page-wrapper">
@@ -148,26 +162,36 @@ export const Offers = () => {
                 label="Comment"
               />
             </div>
-            <span className="submitBtn">
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginLeft: '1em' }}
-                onClick={acceptOffer}
-              >
-                Accept
-              </Button>
-            </span>
-            <span className="submitBtn">
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginLeft: '1em' }}
-                onClick={counterOffer}
-              >
-                New Proposition
-              </Button>
-            </span>
+            <div>
+              <span className="submitBtn">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginLeft: '1em' }}
+                  onClick={acceptOffer}
+                >
+                  Accept
+                </Button>
+              </span>
+              <span className="submitBtn">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginLeft: '1em' }}
+                  onClick={counterOffer}
+                >
+                  New Proposition
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ marginLeft: '1em' }}
+                  onClick={denyOffer}
+                >
+                  Deny
+                </Button>
+              </span>
+            </div>
           </div>
         )}
       </ThemeProvider>
