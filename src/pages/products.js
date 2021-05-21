@@ -3,17 +3,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Logo } from 'utils/Logo'
 import { Link, useHistory } from 'react-router-dom'
 import { LoginContext } from 'authContext'
-import { ThemeProvider, Button, Checkbox } from '@material-ui/core'
+import { ThemeProvider, Button } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
 import { theme } from '../theme'
 import { useTranslation } from 'react-i18next'
 
-const brands = new Set()
+/*const brands = new Set()
 const models = new Set()
-const categories = new Set()
+const categories = new Set()*/
 
-const Menu = () => {
+/*const Menu = () => {
   const { t } = useTranslation('common')
 
   const sorts = [
@@ -48,7 +48,7 @@ const Menu = () => {
       ))}
     </div>
   )
-}
+}*/
 
 //const updateFilter = (filterSet) => {
 //}
@@ -77,12 +77,15 @@ const Product = ({ updater }) => {
       setProducts(modelProducts)
     }
 
-    brands.clear()
+    /*brands.clear()
+    models.clear()
+    categories.clear()
+
     for (const modelProductsKey in modelProducts) {
       brands.add(modelProducts[modelProductsKey].brandName)
       models.add(modelProducts[modelProductsKey].modelName)
       categories.add(modelProducts[modelProductsKey].categoryName)
-    }
+    }*/
   }, [])
 
   const buyProduct = async (e) => {
@@ -155,6 +158,9 @@ export const Products = () => {
   const { requester } = context
 
   const [productCart, setProductCart] = useState(0)
+  //const [brands, setBrands] = useState(new Set())
+  //const [models, setModels] = useState(new Set())
+  //const [categories, setCategories] = useState(new Set())
 
   const updateCart = async () => {
     const res = await requester('http://localhost/php-back/Cart/Content', 'GET')
@@ -197,7 +203,7 @@ export const Products = () => {
         )}
       </header>
       <div className="menu-all">
-        <Menu brands={brands} />
+        {/* <Menu brands={brands} /> */}
         <Product updater={updateCart} />
         <Cart products={productCart} />
       </div>
