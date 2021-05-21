@@ -104,7 +104,7 @@ const Product = ({ updater }) => {
             <img
               width="120"
               src={'http://localhost/php-back/' + object.path}
-              alt={object.product_modelmodelName}
+              alt={object.modelName}
             />
             <div className="product-prices">
               <span>
@@ -116,9 +116,7 @@ const Product = ({ updater }) => {
           <div className="product-buy">
             <div className="product-info">
               <span>{object.brandName}</span>
-              <span className="product-model">
-                {object.product_modelmodelName}
-              </span>
+              <span className="product-model">{object.modelName}</span>
             </div>
             <ThemeProvider theme={theme}>
               <Button
