@@ -65,7 +65,7 @@ export const Cart = () => {
       </header>
       <div className="show-cart">
         <div className="wrapper-middle">
-          <h3>{t('checkout.cart')}</h3>
+          <h3>{t('cart')}</h3>
           <span>{t('checkout.tobuy')}</span>
           <div className="cart">
             {products.map((product, i) => {
